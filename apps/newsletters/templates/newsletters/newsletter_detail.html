@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ newsletter.title }}{% endblock %}
+{% block content %}
+<!-- Import Tailwind CSS, Font Awesome, and Alpine.js -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<style>
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+    .float { animation: float 6s ease-in-out infinite; }
+    body {
+        background: linear-gradient(to bottom right, #f4ecfe, #ecf0fe) !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+    .share-button {
+        background: linear-gradient(to bottom right, #0052D4, #4364F7, #6FB1FC); /* Blue gradient background */
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s ease;
+    }
+    .share-button:hover {
+        transform: scale(1.1);
+    }
+</style>
+<div class="container mx-auto max-w-3/4   px-4 py-16">
+    <h2 class="text-3xl font-bold text-center text-indigo-800 mb-8">{{ newsletter.title }}</h2>
+
+    <!-- Section pour l'image -->
+    <div class="flex justify-center mb-8">
+        <img src="{{ lien_img }}" alt="Image description" class="object-cover rounded-lg shadow-lg" style="width: 1000px; height: 500px;">
+    </div>
+
+    <!-- Buttons to copy and share the newsletter -->
+    <div class="flex justify-center space-x-4 pb-10">
+        <!-- Copy button -->
+        <button id="copy-button" class="share-button text-white">
+            <i class="fas fa-copy"></i>
+        </button>
+        <span id="copy-confirmation" class="text-green-600 hidden">Copié !</span>
+  
+         <!-- <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}" target="_blank" class="share-button text-white">
+            <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="share-button text-white">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://wa.me/?text={{ request.build_absolute_uri }}" target="_blank" class="share-button text-white">
+            <i class="fab fa-whatsapp"></i>
+        </a> -->
+        <a  href="{% url 'Newsletter:newsletter_edit' newsletter.id %}"       class="share-button text-white bg-gradient-to-r from-green-400 to-blue-500">
+            <i class="fas fa-edit"></i>
+        </a>
+    </div>
+    <div id="newsletter-content" class=" bg-white p-6 rounded-lg shadow-lg float transform hover:scale-105 transition-all duration-300">
+        {% for paragraph in paragraphs %}
+            <p class="newsletter-paragraph mb-4 text-gray-600 text-justify leading-relaxed">{{ paragraph|safe }}</p>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const copyButton = document.getElementById('copy-button');
+        const newsletterTitle = '{{ newsletter.title }}';
+        const newsletterContent = document.getElementById('newsletter-content');
+        const copyConfirmation = document.getElementById('copy-confirmation');
+
+        copyButton.addEventListener('click', function() {
+            // Combine the title (with bold) and the content
+            let fullText = `**${newsletterTitle}**\n\n`; // Bold title using Markdown style
+
+            // Append each paragraph's text to the fullText
+            const paragraphs = newsletterContent.querySelectorAll('.newsletter-paragraph');
+            paragraphs.forEach(paragraph => {
+                fullText += paragraph.innerText + '\n\n';
+            });
+
+            // Copy the fullText to the clipboard
+            navigator.clipboard.writeText(fullText).then(() => {
+                // Show confirmation message
+                copyConfirmation.classList.remove('hidden');
+                setTimeout(function() {
+                    copyConfirmation.classList.add('hidden');
+                }, 2000); // Hide after 2 seconds
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        });
+    });
+</script>
+{% endblock %}

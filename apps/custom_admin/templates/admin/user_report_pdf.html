@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rapport Utilisateur</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2, h3 {
+            color: #3498db;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rapport de {{ user.username }}</h1>
+    <h3>Informations Générales</h3>
+    <p>Email: {{ user.email }}</p>
+    <p>Total de Connexions: {{ total_logins }}</p>
+    <p>Crédits Utilisés: {{ credits_used }}</p>
+
+    <h3>Actions</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for action in actions %}
+            <tr>
+                <td>{{ action.timestamp }}</td>
+                <td>{{ action.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Newsletters Créées</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Date de Création</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for newsletter in newsletters %}
+            <tr>
+                <td>{{ newsletter.title }}</td>
+                <td>{{ newsletter.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

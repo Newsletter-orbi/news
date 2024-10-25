@@ -1,0 +1,590 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 2000, // Durée de l'animation en millisecondes
+   offset: 120, // Décalage pour déclencher les animations plus tôt ou plus tard
+    delay: 0, // Aucun délai au démarrage
+     easing: 'ease-in-out', // Effet de transition
+    once: false, // L'animation s'exécute chaque fois que l'élément est visible
+   });
+</script>
+
+
+<div class="container ">
+
+    <div class="container-fluid px-4 py-5"            > 
+        <div class="row gx-5" data-aos="fade-up">
+            <div class="col-12">
+                <div class="card shadow-lg border-0 mb-5 welcome-card">
+                    <div class="card-body text-white py-5">
+                        <div class="row align-items-center">
+                            <div class="col-md-9">
+                                <h1 class="display-3 mb-3 fw-bold">Welcome, {{ user.first_name }}!</h1>
+                                <p class="fs-4 fw-light">Manage your account, view your newsletters, and more from here.</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <img src="{% static 'assets/img/2233.png' %}" alt="Welcome Image" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+         
+        <div class="row ">
+            <div class="col-md-4 mb-4"  data-aos="fade-right"   >
+                <div class="card h-100 shadow-sm border-0 user-card">
+                    <div class="card-body text-center">
+                        {% if user.profile_image %}
+                            <img src="{{ user.profile_image.url }}" alt="Profile Image" class="rounded-circle img-fluid border border-primary shadow-sm mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'default/default_profile_image.jpg' %}" alt="Default Profile Image" class="rounded-circle img-fluid border border-primary shadow-sm mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                        {% endif %}
+                        <h5 class="card-title fw-bold">{{ user.first_name }} {{ user.last_name }}</h5>
+                        <a href="{% url 'accounts:profile' %}" class="btn btn-primary rounded-pill px-4 shadow-sm">Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8"    data-aos="fade-left"  >
+                <div class="card mb-4 shadow-sm border-0">
+                    <div class="card-body">
+                        <h2 class="h4 text-primary">Your Information</h2>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Username:</strong> <span>{{ user.username }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>First Name:</strong> <span>{{ user.first_name }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Last Name:</strong> <span>{{ user.last_name }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Phone:</strong> <span>{{ user.phone }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Country:</strong> <span>{{ user.country }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <strong>Email:</strong> <span>{{ user.email }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    
+        <div class="row">
+            <!-- First Column -->
+            <div class="col-md-4 d-flex flex-column">
+                <!-- Total Credits -->
+                <div class="mb-4 flex-grow-1"  data-aos="fade-right"  >
+                    <div class="card h-100 shadow-sm border-0 stats-card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fs-5 fw-bold mb-3">Total Credits</h5>
+                            <p class="display-4 fw-bold text-primary mb-0">{{ credits }}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Total Newsletters Created -->
+                <div class="mb-4 flex-grow-1"  data-aos="fade-right"   >
+                    <div class="card h-100 border-0 stats-card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fs-5 fw-bold mb-3">Total Newsletters Created</h5>
+                            <p class="display-4 fw-bold text-primary mb-0">{{ total_newsletters_created }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Second Column -->
+            <div class="col-md-8 d-flex mb-4 flex-grow-1">
+                <div class="card h-100 shadow-sm border-0 flex-grow-1" data-aos="fade-left"   >
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                        <h2 class="h4 text-primary mb-4">Your Subscription</h2>
+                        <div class="subscription-info">
+                            <p class="mb-3"><strong class="text-primary">Subscription Plan:</strong> <span class="fs-5">{{  subscription_plan   }}</span></p>
+                            <p class="mb-3"><strong class="text-primary">Start Date:</strong> <span class="fs-5">{{ subscription_start_date|date:"d M Y" }}</span></p>
+                            <p class="mb-3"><strong class="text-primary">End Date:</strong> <span class="fs-5">{% if subscription_end_date %}{{ subscription_end_date|date:"d M Y" }}{% else %}N/A{% endif %} </span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% if newsletters %}
+    
+        <div class="row   -4">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm border-0 chart-card"   data-aos="fade-right"   > 
+                    <div class="card-body text-center ">
+                        <center>
+                        <h5 class="card-title fs-5 fw-bold mb-3">Newsletters by Type of News</h5>
+                        <div class="canvas-wrapper">
+                            <canvas id="newsTypeChart"></canvas>
+                        </div>
+                    </center>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm border-0 chart-card"data-aos="fade-left"   > 
+                    <div class="card-body text-center">
+                        <center>
+
+                        <h5 class="card-title fs-5 fw-bold mb-3">Most Frequent Impacts</h5>
+                        <div class="canvas-wrapper">
+                            <canvas id="impactChart"></canvas>
+                        </div>
+                    </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% endif %}
+    
+        <div class="row gx-5 mb-4">
+            <div class="col-12">
+                <div class="card shadow-sm border-0 chart-card"    data-aos="fade-down "     >
+                    <div class="card-body">
+                        <h2 class="card-title fs-4 fw-bold mb-4">Newsletters Created Each Day This Month</h2>
+                        <canvas id="newsletterChart" ></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="row gx-5">
+        <div class="col-12">
+            <div class="card shadow-lg border-0 mb-5">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="fs-4 fw-bold m-0">Your Newsletters</h4>
+                        {% if newsletters %}
+                            <div class="d-flex flex-wrap justify-content-end gap-2">
+                                <a href="{% url 'Newsletter:newsletter_create' %}" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                                    <i class="fas fa-plus me-2"></i>Create Newsletter
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if newsletters %}
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle" id="newsletters-table">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Date Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for newsletter in newsletters %}
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="newsletter-icon me-3">
+                                                        <i class="fas fa-newspaper fa-2x text-primary"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-0">{{ newsletter.title }}</h6>
+                                                        <small class="text-muted">{{ newsletter.subtitle|truncatechars:50 }}</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>{{ newsletter.created_at|date:"M d, Y" }}</td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a href="{% url 'Newsletter:newsletter_detail' newsletter.id %}" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" title="View">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a href="{% url 'Newsletter:newsletter_edit' newsletter.id %}" class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <button class="btn btn-outline-danger btn-sm" onclick="confirmDelete('{{ newsletter.id }}', '{{ newsletter.title }}')" data-bs-toggle="tooltip" title="Delete">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                        <nav aria-label="Newsletter pagination" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <!-- First Page Button -->
+                                <li class="page-item {% if not newsletters.has_previous %}disabled{% endif %}">
+                                    <a class="page-link" href="?page=1" aria-label="First">
+                                        <span aria-hidden="true">&laquo;&laquo; First</span>
+                                    </a>
+                                </li>
+                        
+                                <!-- Previous Page Button -->
+                                <li class="page-item {% if not newsletters.has_previous %}disabled{% endif %}">
+                                    {% if newsletters.has_previous %}
+                                        <a class="page-link" href="?page={{ newsletters.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo; Previous</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                        
+                                <!-- Current Page Information -->
+                                <li class="page-item active">
+                                    <span class="page-link">{{ newsletters.number }} of {{ newsletters.paginator.num_pages }}</span>
+                                </li>
+                        
+                                <!-- Next Page Button -->
+                                <li class="page-item {% if not newsletters.has_next %}disabled{% endif %}">
+                                    {% if newsletters.has_next %}
+                                        <a class="page-link" href="?page={{ newsletters.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">Next &raquo;</span>
+                                        </a>
+                                    {% endif %}
+                                </li>
+                        
+                                <!-- Last Page Button -->
+                                <li class="page-item {% if not newsletters.has_next %}disabled{% endif %}">
+                                    <a class="page-link" href="?page={{ newsletters.paginator.num_pages }}" aria-label="Last">
+                                        <span aria-hidden="true">Last &raquo;&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        
+                         
+                    {% else %}
+                        <div class="text-center py-5">
+                            <img src="{% static 'accounts/images/empty-newsletters.jpg' %}" alt="No newsletters" class="img-fluid mb-4" style="max-width: 200px;">
+                            <h5 class="text-muted mb-3">You haven't created any newsletters yet.</h5>
+                            <a href="{% url 'Newsletter:newsletter_create' %}" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                                <i class="fas fa-plus me-2"></i>Create Your First Newsletter
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #007bff; color: white;">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the newsletter "<span id="newsletterTitle"></span>"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<script>
+    var ctxNewsType = document.getElementById('newsTypeChart').getContext('2d');
+    var newsTypeChart = new Chart(ctxNewsType, {
+        type: 'doughnut',
+        data: {
+            labels: {{ news_type_labels|safe }},
+            datasets: [{
+                data: {{ news_type_data|safe }},
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        }
+    });
+
+    var ctxImpact = document.getElementById('impactChart').getContext('2d');
+    var impactChart = new Chart(ctxImpact, {
+        type: 'doughnut',
+        data: {
+            labels: {{ impact_labels|safe }},
+            datasets: [{
+                data: {{ impact_data|safe }},
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        }
+    });
+</script>
+
+ 
+<!--    JS      -->
+
+<script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    // Search functionality
+    document.getElementById('newsletter-search').addEventListener('input', function() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById('newsletter-search');
+        filter = input.value.toUpperCase();
+        table = document.getElementById('newsletters-table');
+        tr = table.getElementsByTagName('tr');
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName('td')[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                } else {
+                    tr[i].style.display = 'none';
+                }
+            }
+        }
+    });
+</script>
+  
+<script>
+var ctx = document.getElementById('newsletterChart').getContext('2d');
+var newsletterChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ chart_labels|safe }},
+        datasets: [{
+            label: 'Newsletters Created',
+            data: {{ chart_data|safe }},
+            backgroundColor: 'rgba(0, 198, 255, 0.2)',
+            borderColor: '#00c6ff',
+            borderWidth: 2,
+            fill: true
+        }]
+    },
+    options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Date',
+                    color: '#007bff',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                },
+                ticks: {
+                    color: '#007bff',
+                    font: {
+                        size: 12
+                    }
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Number of Newsletters',
+                    color: '#007bff',
+                    font: {
+                        size: 14,
+                        weight: 'bold'
+                    }
+                },
+                ticks: {
+                    color: '#007bff',
+                    font: {
+                        size: 12
+                    },
+                    beginAtZero: true, // Assure que l'axe commence à 0
+                    stepSize: 1 // Définit le pas à 1
+                },
+                min: 0 // Assure que le minimum de l'axe Y est 0
+            }
+        }
+    }
+});
+
+
+    var newsletterIdToDelete = null;
+
+    function confirmDelete(newsletterId, newsletterTitle) {
+        newsletterIdToDelete = newsletterId;
+        document.getElementById('newsletterTitle').innerText = newsletterTitle;
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show();
+    }
+
+    document.getElementById('confirmDeleteButton').addEventListener('click', function() {
+        if (newsletterIdToDelete) {
+            fetch('/newsletters/delete/' + newsletterIdToDelete + '/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload(); // Refresh the page after deletion
+                } else {
+                    alert('Failed to delete the newsletter.');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while trying to delete the newsletter.');
+            });
+        }
+    });
+</script>
+
+<!--    CSS      -->
+
+<style>
+
+a {
+    text-decoration: none !important; /* Désactive le soulignement pour tous les liens */
+}
+
+
+    .canvas-wrapper {
+ 
+        max-height: 250px;  /* Définit la hauteur maximale pour le canvas */
+    }
+    .chart-card {
+        background-color: #ffffff;
+
+        height: 100%;  /* Assure que les cartes prennent toute la hauteur disponible */
+    }   
+    canvas {
+        max-width: 100%;
+        height: auto;
+    }
+    .newsletter-icon {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: #e9ecef;
+    }
+    #newsletters-table tr {
+        transition: all 0.3s ease;
+    }
+    #newsletters-table tr:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .search-wrapper {
+        position: relative;
+        max-width: 300px;
+        width: 100%;
+    }
+    .search-input {
+        padding-right: 30px;
+        border-radius: 20px;
+    }
+    .search-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d;
+    }
+    @media (max-width: 767px) {
+        .search-wrapper {
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+        .d-flex.flex-wrap.justify-content-end {
+            justify-content: center !important;
+        }
+    }
+     body {
+        font-family: 'Inter', sans-serif;
+        background-color: #acd5ff29;    /* #79bafc33; */
+    }
+    .welcome-card {
+        background: linear-gradient(135deg, #4158D0, #C850C0);
+        border-radius: 20px;
+    }
+    .card {
+        border-radius: 15px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.308);
+    }
+    .user-card, .info-card, .stats-card, .chart-card {
+        background-color: #ffffff;
+    }
+    .text-primary {
+        color: #4158D0 !important;
+    }
+    .btn-primary {
+        background-color: #4158D0;
+        border-color: #4158D0;
+    }
+    .btn-primary:hover {
+        background-color: #3a4dc2;
+        border-color: #3a4dc2;
+    }
+    .table-primary {
+        background-color: #e8eaf6;
+    }
+    .table-hover tbody tr:hover {
+        background-color: #f1f3f9;
+    }
+    @media (max-width: 768px) {
+        .display-3 {
+            font-size: 2.5rem;
+        }
+        .fs-4 {
+            font-size: 1.25rem !important;
+        }
+    }
+    .card-body {
+        box-shadow: 0px 0px 11px 5px rgba(0, 0, 0, 0.149)!important;
+        border-radius: 15px !important;  
+    }
+
+  #newsletterChart{
+
+    max-height: 400px;
+  }
+ 
+</style>
+{% endblock %}

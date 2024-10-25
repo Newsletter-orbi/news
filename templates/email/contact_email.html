@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouveau message de contact</title>
+</head>
+<body style="font-family: Georgia, serif; background-color: #f3f4f6; color: #1f2937; padding: 0; margin: 0; line-height: 1.6;">
+
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background: linear-gradient(135deg, #f3f4f6 0%, #ddd6fe 100%); padding: 20px 0;">
+        <tr>
+            <td align="center">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 16px; box-shadow: 0 20px 40px rgba(79, 70, 229, 0.15); overflow: hidden;">
+                    <!-- En-tête avec gradient animé -->
+                    <tr>
+                        <td>
+                            <div style="background: linear-gradient(45deg, #4f46e5, #818cf8); padding: 40px 20px; text-align: center; position: relative;">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1034/1034146.png" alt="Icône de message" style="width: 80px; height: 80px; background: white; padding: 15px; border-radius: 50%; box-shadow: 0 8px 16px rgba(0,0,0,0.1); margin-bottom: 15px;">
+                                <h1 style="color: white; font-size: 28px; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                    Nouveau message de contact
+                                </h1>
+                                <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 16px;">
+                                    Reçu le {% now "j F Y à H\hi" %}
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Contenu principal -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <!-- Carte d'informations de l'expéditeur -->
+                            <div style="background: #f8fafc; border-radius: 12px; padding: 30px; margin-bottom: 30px; border: 1px solid #e5e7eb;">
+                                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td width="60" style="vertical-align: top;">
+                                            <div style="width: 50px; height: 50px;  background-color: #4f46e5; border-radius: 50%; color: white; font-weight: bold; font-size: 20px; display: flex; align-items: center; justify-content: center;">
+                                                <span  class ="center"style=" padding-left: 17px ;padding-top:8px ;"   >{{ name|slice:":1"|upper }}</span>
+                                            </div>                                            
+                                        </td>
+                                        <td style="padding-left: 15px;">
+                                            <h2 style="margin: 0 0 5px 0; color: #4f46e5; font-size: 20px;">{{ name }}</h2>
+                                            <p style="margin: 0; color: #6b7280; font-size: 14px;">
+                                                <img src="https://cdn-icons-png.flaticon.com/512/552/552486.png" alt="Email" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 5px;">
+                                                {{ email }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <!-- Sujet du message -->
+                            <div style="margin-bottom: 30px;">
+                                <div style="padding: 15px 20px; background-color: #f3f4f6; border-radius: 8px; border-left: 4px solid #4f46e5;">
+                                    <p style="margin: 0; font-size: 16px;">
+                                        <strong style="color: #4f46e5;">Sujet :</strong>
+                                        <span style="color: #1f2937;">{{ subject }}</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Contenu du message -->
+                            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+                                <h3 style="margin: 0 0 15px 0; color: #4f46e5; font-size: 18px;">Message :</h3>
+                                <div style="background-color: #f8fafc; border-radius: 8px; padding: 20px; font-size: 16px; line-height: 1.6; color: #1f2937;">
+                                    {{ message }}
+                                </div>
+                            </div>
+
+                            <!-- Boutons d'action -->
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 30px 0;">
+                                <tr>
+                                    <td align="center">
+                                        <div>
+                                            <!-- Bouton Répondre -->
+                                            <a href="mailto:{{ email }}" style="display: inline-block; background-color: #4f46e5; color: #ffffff; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: 500; font-size: 16px; margin-right: 10px; box-shadow: 0 4px 6px rgba(79, 70, 229, 0.25); transition: all 0.3s ease;">
+                                                <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="Répondre" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 8px;">
+                                                Répondre
+                                            </a>
+                                            <!-- Bouton Marquer comme lu -->
+                                            <a href="#" style="display: inline-block; background-color: #ffffff; color: #4f46e5; padding: 14px 30px; text-decoration: none; border-radius: 8px; font-weight: 500; font-size: 16px; border: 1px solid #4f46e5; margin-left: 10px; transition: all 0.3s ease;">
+                                                Marquer comme lu
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Tags et priorité -->
+                            <div style="margin: 20px 0; text-align: center;">
+                                <span style="display: inline-block; background-color: #fee2e2; color: #ef4444; padding: 6px 12px; border-radius: 20px; font-size: 14px; margin: 0 5px;">
+                                    Priorité haute
+                                </span>
+                                <span style="display: inline-block; background-color: #f3f4f6; color: #6b7280; padding: 6px 12px; border-radius: 20px; font-size: 14px; margin: 0 5px;">
+                                    #nouveau
+                                </span>
+                                <span style="display: inline-block; background-color: #f3f4f6; color: #6b7280; padding: 6px 12px; border-radius: 20px; font-size: 14px; margin: 0 5px;">
+                                    #contact
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Footer amélioré -->
+                    <tr>
+                        <td>
+                            <div style="background-color: #f8fafc; border-top: 1px solid #e5e7eb; padding: 30px; text-align: center;">
+                                <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="Logo" style="width: 40px; height: 40px; margin-bottom: 15px;">
+                                <p style="color: #6b7280; font-size: 14px; margin: 0 0 15px 0;">
+                                    Ce message a été envoyé via le formulaire de contact de votre site web.
+                                </p>
+                                <p style="color: #4f46e5; font-weight: 500; font-size: 14px; margin: 0 0 20px 0;">
+                                    Délai de réponse recommandé : 24 heures
+                                </p>
+                                <div style="margin-top: 20px;">
+                                    <a href="#" style="display: inline-block; margin: 0 10px; text-decoration: none;">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3955/3955024.png" alt="Support" style="width: 24px; height: 24px;">
+                                    </a>
+                                    <a href="#" style="display: inline-block; margin: 0 10px; text-decoration: none;">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/2875/2875435.png" alt="Settings" style="width: 24px; height: 24px;">
+                                    </a>
+                                </div>
+                                <p style="color: #6b7280; font-size: 12px; margin: 20px 0 0 0;">
+                                    © 2024 Newsletter AI. Tous droits réservés.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

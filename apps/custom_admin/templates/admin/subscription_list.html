@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Liste des Plans d'Abonnement</h1>
+
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Type de Plan</th>
+                <th>Prix</th>
+                <th>Crédits</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plan in object_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ plan.name }}</td>
+                <td>{{ plan.get_plan_type_display }}</td>
+                <td>{{ plan.price }}</td>
+                <td>{{ plan.credit }}</td>
+                <td>
+                    <a href="{% url 'custom_admin:subscription_edit' plan.pk %}" class="btn btn-sm btn-warning">Modifier</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">Aucun plan d'abonnement trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center mt-4">
+        <!-- Ajouter un bouton pour ajouter un nouveau plan d'abonnement -->
+        <a href="{% url 'custom_admin:subscription_add' %}" class="btn btn-primary">Ajouter un Plan d'Abonnement</a>
+    </div>
+</div>
+{% endblock %}

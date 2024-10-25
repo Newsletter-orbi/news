@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Créer une Social Application</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Nom</label>
+            <input type="text" id="name" name="name" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="client_id">Client ID</label>
+            <input type="text" id="client_id" name="client_id" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="secret">Secret</label>
+            <input type="text" id="secret" name="secret" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Créer</button>
+    </form>
+</div>
+{% endblock %}

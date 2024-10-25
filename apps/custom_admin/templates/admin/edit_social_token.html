@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Modifier Social Token</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="token">Token</label>
+            <input type="text" id="token" name="token" value="{{ token.token }}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}

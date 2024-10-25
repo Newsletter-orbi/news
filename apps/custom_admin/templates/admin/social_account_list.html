@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Liste des Social Accounts</h1>
+    
+    <!-- Bouton "Ajouter" -->
+    <div class="mb-3">
+        <a href="{% url 'custom_admin:create_social_account' %}" class="btn btn-success">Ajouter Social Account</a>
+    </div>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Utilisateur</th>
+                <th>Provider</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in social_accounts %}
+            <tr>
+                <td>{{ account.id }}</td>
+                <td>{{ account.user.username }}</td>
+                <td>{{ account.provider }}</td>
+                <td>
+                    <a href="{% url 'custom_admin:edit_social_account' account.id %}" class="btn btn-primary">Modifier</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

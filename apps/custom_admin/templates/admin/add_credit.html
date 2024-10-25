@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Ajouter un crédit à un utilisateur</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="user_id">Sélectionnez un utilisateur</label>
+            <select name="user_id" class="form-control" required>
+                {% for user in users_without_credits %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="credits">Nombre de crédits</label>
+            <input type="number" name="credits" class="form-control" required>
+        </div>
+
+        <div class="form-group text-center mt-4">
+            <button type="submit" class="btn btn-success">Ajouter les crédits</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

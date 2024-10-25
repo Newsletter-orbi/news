@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-danger">Supprimer la Newsletter</h1>
+    
+    <div class="alert alert-warning text-center mt-4">
+        <p>Êtes-vous sûr de vouloir supprimer la newsletter <strong>{{ object.title }}</strong> ?</p>
+        <p>Cela est irréversible et toutes les données associées à cette newsletter seront supprimées.</p>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6 text-center">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+                <a href="{% url 'custom_admin:newsletter_list' %}" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

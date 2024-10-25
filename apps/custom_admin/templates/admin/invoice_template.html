@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+        .invoice-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .details {
+            margin-bottom: 30px;
+        }
+        .details strong {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-box">
+        <h1 class="invoice-title">Facture</h1>
+        <p><strong>Utilisateur:</strong> {{ payment.user.username }}</p>
+        <p><strong>Email:</strong> {{ payment.user.email }}</p>
+        <p><strong>Date de paiement:</strong> {{ payment.created_at|date:"d/m/Y H:i" }}</p>
+        <p><strong>Montant payé:</strong> ${{ payment.amount }}</p>
+        <p><strong>Statut:</strong> {% if payment.paid %} Payé {% else %} En attente {% endif %}</p>
+    </div>
+</body>
+</html>

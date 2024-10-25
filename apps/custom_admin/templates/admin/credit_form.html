@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Modifier les crédits de l'utilisateur : {{ user_details.username }}</h1>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <!-- Détails de l'utilisateur -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Détails de l'utilisateur</h5>
+                    <p><strong>Email :</strong> {{ user_details.email }}</p>
+                    <p><strong>Pays :</strong> {{ user_details.country }}</p>
+                    <p><strong>Téléphone :</strong> {{ user_details.phone }}</p>
+                </div>
+            </div>
+
+            <!-- Type de plan d'abonnement de l'utilisateur -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Abonnement</h5>
+                    {% if user_plan %}
+                        <p><strong>Plan :</strong> {{ user_plan.plan.name }}</p>
+                        <p><strong>Prix :</strong> {{ user_plan.plan.price }}</p>
+                        <p><strong>Crédits inclus :</strong> {{ user_plan.plan.credit }}</p>
+                    {% else %}
+                        <p>L'utilisateur n'a pas d'abonnement actif.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Nombre de newsletters créées -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Activité</h5>
+                    <p><strong>Nombre de newsletters créées :</strong> {{ total_newsletters }}</p>
+                </div>
+            </div>
+
+            <!-- Formulaire de modification des crédits -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="credits">Crédits</label>
+                    <input type="number" name="credits" class="form-control" id="credits" value="{{ form.credits.value|default_if_none:'' }}">
+                </div>
+                
+                <div class="form-group text-center mt-4">
+                    <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

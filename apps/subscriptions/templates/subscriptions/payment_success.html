@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}Payment Success{% endblock %}
+{% block content %}
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+    </style>
+ <div class="bg-gradient-to-br from-purple-100 to-indigo-200 min-h-screen font-[Poppins] antialiased">
+    <div class="container mx-auto px-4 py-16">
+        <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="p-8 fade-in">
+                <div class="flex items-center justify-center mb-8">
+                    <svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-center text-indigo-800 mb-4">Payment Successful!</h1>
+                <p class="text-center text-gray-600 mb-8">Thank you for your purchase. Your transaction has been completed successfully.</p>
+                
+                <div class="border-t border-gray-200 pt-8 mb-8">
+                    <h2 class="text-2xl font-semibold text-indigo-600 mb-4">Invoice Details</h2>
+                    <div class="grid grid-cols-2 gap-4">
+
+
+                        <div>
+                            <p class="text-sm text-gray-600">Name Customer :</p>
+                            <p class="font-medium">    {{ payment_details.name_customer }}    </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Email:</p>
+                            <p class="font-medium">   {{ payment_details.email }}   </p>
+                        </div>
+
+                        <div>
+                            <p class="text-sm text-gray-600">Invoice Number:</p>
+                            <p class="font-medium"> {{ payment_details.invoice_number }}   </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Date:</p>
+                            <p class="font-medium"> {{ payment_details.date|date:"d M Y H:i" }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Amount Paid:</p>
+                            <p class="font-medium">${{ payment_details.amount_paid }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Payment Status:</p>
+                            <p class="font-medium">{{ payment_details.payment_status }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-200 pt-8">
+                    <h3 class="text-xl font-semibold text-indigo-600 mb-4">Order Summary</h3>
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-medium">{{ payment_details.plan_name }} Plan ({{ payment_details.plan_type }})</span>
+                            <span class="font-medium">${{ payment_details.amount_paid }}</span>
+                        </div>
+                        <p class="text-sm text-gray-600">{{ payment_details.plan_description }} </p>
+                    </div>
+                    <div class="flex justify-between items-center font-semibold text-lg">
+                        <span>Total</span>
+                        <span>${{ payment_details.amount_paid }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 p-8 fade-in" style="animation-delay: 0.2s;">
+                <div class="flex justify-between items-center">
+                    <!-- <a href="{% url 'generate_invoice_pdf' payment_details.invoice_number %}"  class="text-indigo-600 hover:text-indigo-800 transition-colors duration-300">
+                        <svg class="w-6 h-6 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                        </svg>
+                        Download Invoice
+                    </a> -->
+                    <a  class="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300" href="{% url 'accounts:dashboard_redirect'  %}"   >
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

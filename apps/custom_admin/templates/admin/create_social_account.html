@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Créer un Social Account</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="user">Utilisateur</label>
+            <select name="user_id" id="user" class="form-control">
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="provider">Provider</label>
+            <input type="text" id="provider" name="provider" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="uid">UID</label>
+            <input type="text" id="uid" name="uid" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Créer</button>
+    </form>
+</div>
+{% endblock %}

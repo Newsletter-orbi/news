@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+  Pricing
+{% endblock %}
+
+
+
+{% block content %}
+  
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+     <script src="https://cdn.tailwindcss.com"></script>
+     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+     <style>
+         @keyframes float {
+             0% { transform: translateY(0px); }
+             50% { transform: translateY(-20px); }
+             100% { transform: translateY(0px); }
+         }
+         .float { animation: float 6s ease-in-out infinite; }
+
+         body {
+                background: linear-gradient(to bottom right, #f4ecfe, #ecf0fe)   !important;
+                 font-family: 'Poppins', sans-serif !important;
+ 
+         }
+     </style>
+
+      <script>
+        function pricing() {
+            return {
+                planType: 'monthly',
+                annual: false, // Défini comme 'false' par défaut
+            }
+        }
+    </script>
+
+      <div x-data="pricing()" class="container mx-auto px-4 py-16">
+         <h1 class="text-4xl md:text-5xl font-bold text-center text-indigo-800 mb-12 tracking-tight">Choose Your Perfect Plan</h1>
+         
+         <div class="flex flex-col items-center mb-12">
+             <div class="flex items-center space-x-4 bg-white p-1 rounded-full shadow-lg">
+                 <button @click="planType = 'yearly'; annual = true;" :class="planType === 'yearly' ? 'bg-indigo-500 text-white' : 'text-gray-500'" class="px-4 py-2 rounded-full transition-all duration-300">Yearly</button>
+                 <button @click="planType = 'monthly'; annual = false;" :class="planType === 'monthly' ? 'bg-indigo-500 text-white' : 'text-gray-500'" class="px-4 py-2 rounded-full transition-all duration-300">Monthly</button>
+             </div>
+             <p class="mt-4 text-indigo-600 font-medium">Save up to 20% with yearly billing!</p>
+         </div>
+         
+         <div class="grid md:grid-cols-3 gap-8">
+             {% for plan in plans %}
+             <div 
+                 x-show="planType === '{{ plan.plan_type }}'" 
+                 class="{% if plan.name == 'Pro' %}bg-gradient-to-br from-indigo-600 to-purple-600 text-white{% else %}bg-white{% endif %} rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition-all duration-300 float group"
+                 style="animation-delay: {{ forloop.counter0 }}00ms;"
+             >
+                 {% if plan.name == 'Pro' %}
+                 <div class="absolute top-0 right-0 mt-4 mr-4 bg-yellow-400 text-indigo-900 text-xs font-bold px-3 py-1 rounded-full uppercase shadow-md">Popular</div>
+                 {% endif %}
+                 <div class="p-6">
+                     <h2 class="text-2xl font-semibold {% if plan.name == 'Pro' %}text-white{% else %}text-indigo-600{% endif %} mb-4">{{ plan.name }}</h2>
+                     <div class="flex items-baseline mb-6">
+                         <span class="text-5xl font-bold">${{ plan.price|floatformat:0 }}</span>
+                         <span class="text-lg {% if plan.name == 'Pro' %}text-indigo-200{% else %}text-gray-500{% endif %} ml-1">/{{ plan.get_plan_type_display }}</span>
+                     </div>
+                     
+                     <!-- Section d'économie annuelle -->
+                     {% if plan.name == 'Basic' %}
+                    <strong><p x-show="annual" class="text-sm text-green-600 mt-2 pb-3  ">Save $72 per year</p></strong>
+                     {% elif plan.name == 'Pro' %}
+                         <strong><p x-show="annual" class="text-smtext-white  mt-2  pb-3  ">Save $120 per year</p></strong>
+                     {% elif plan.name == 'Enterprise' %}
+                    <strong>    <p x-show="annual" class="text-sm text-green-600 mt-2   pb-3  ">Save $180 per year</p></strong>
+                     {% endif %}
+                     
+                     <p class="{% if plan.name == 'Pro' %}text-indigo-100{% else %}text-gray-600{% endif %} mb-6 text-sm">{{ plan.description }}</p>
+                     <ul class="space-y-4 text-sm">
+                         <li class="flex items-center">
+                             <i class="fas fa-check-circle {% if plan.name == 'Pro' %}text-indigo-200{% else %}text-green-500{% endif %} mr-2"></i>
+                             <span>{{ plan.credit }} Credits</span>
+                         </li>
+                         <li class="flex items-center">
+                             <i class="fas fa-check-circle {% if plan.name == 'Pro' %}text-indigo-200{% else %}text-green-500{% endif %} mr-2"></i>
+                             <span>24/7 Support</span>
+                         </li>
+                         <li class="flex items-center">
+                             <i class="fas fa-check-circle {% if plan.name == 'Pro' %}text-indigo-200{% else %}text-green-500{% endif %} mr-2"></i>
+                             <span>Analytics Dashboard</span>
+                         </li>
+                     </ul>
+                 </div>
+                 <div class="p-4">
+                    <form action="{% url 'create_checkout_session' plan.stripe_plan_id %}" method="POST">
+                        {% csrf_token %}
+                         <button class="w-full py-3 px-6 {% if plan.name == 'Pro' %}text-indigo-600 bg-white hover:bg-indigo-50{% else %}text-white bg-indigo-600 hover:bg-indigo-700{% endif %} rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition-all duration-300 transform group-hover:scale-105 font-medium text-base">
+                             {% if plan.name == 'Enterprise' %}Contact Sales{% else %}Get Started{% endif %}
+                         </button>
+                     </form>
+                 </div>
+             </div>
+             {% endfor %}
+         </div>
+     </div>
+ 
+{% endblock %}

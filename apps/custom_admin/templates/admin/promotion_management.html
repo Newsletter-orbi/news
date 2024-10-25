@@ -1,0 +1,24 @@
+<h1>Gestion des Promotions</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Code Promo</th>
+            <th>Réduction (%)</th>
+            <th>Utilisations</th>
+            <th>Date d'Expiration</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for promo in promotions %}
+            <tr>
+                <td>{{ promo.code }}</td>
+                <td>{{ promo.discount }}</td>
+                <td>{{ promo.usage_count }}</td>
+                <td>{{ promo.expiration_date|date:"d/m/Y" }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'custom_admin:promotion_create' %}" class="btn btn-primary">Ajouter une Promotion</a>

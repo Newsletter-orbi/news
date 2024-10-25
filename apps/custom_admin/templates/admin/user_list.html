@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Liste des Utilisateurs</h1>
+    
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nom d'utilisateur</th>
+                <th>Email</th>
+                <th>Pays</th>
+                <th>Téléphone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in object_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.country }}</td>
+                <td>{{ user.phone }}</td>
+                <td>
+                    <a href="{% url 'custom_admin:user_edit' user.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'custom_admin:user_delete' user.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">Supprimer</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">Aucun utilisateur trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="text-center">
+        <a href="{% url 'custom_admin:user_add' %}" class="btn btn-primary">Ajouter un utilisateur</a>
+    </div>
+</div>
+{% endblock %}

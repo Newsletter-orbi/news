@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Liste des Social Applications</h1>
+    
+    <!-- Bouton "Ajouter" -->
+    <div class="mb-3">
+        <a href="{% url 'custom_admin:create_social_app' %}" class="btn btn-success">Ajouter Social Application</a>
+    </div>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Client ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for app in social_apps %}
+            <tr>
+                <td>{{ app.id }}</td>
+                <td>{{ app.name }}</td>
+                <td>{{ app.client_id }}</td>
+                <td>
+                    <a href="{% url 'custom_admin:edit_social_app' app.id %}" class="btn btn-primary">Modifier</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

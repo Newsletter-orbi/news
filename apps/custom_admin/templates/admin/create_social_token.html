@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Créer un Social Token</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="account">Compte Social</label>
+            <select name="account_id" id="account" class="form-control">
+                {% for account in social_accounts %}
+                <option value="{{ account.id }}">{{ account.user.username }} ({{ account.provider }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="token">Token</label>
+            <input type="text" id="token" name="token" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Créer</button>
+    </form>
+</div>
+{% endblock %}

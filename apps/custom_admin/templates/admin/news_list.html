@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Liste des Actualités</h1>
+
+    <!-- Afficher les messages de succès ou d'erreur -->
+    {% if messages %}
+    <div class="mt-3">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Titre</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Localisation</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for news in object_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ news.title }}</td>
+                <td>{{ news.date }}</td>
+                <td>{{ news.get_news_type_display }}</td>
+                <td>{{ news.localisation }}</td>
+                <td>
+                    <a href="{% url 'custom_admin:news_edit' news.pk %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'custom_admin:news_delete' news.pk %}" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette actualité ?');">Supprimer</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">Aucune actualité trouvée.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Formulaire pour ajouter une nouvelle actualité -->
+    <div class="text-center mt-4">
+        <a href="{% url 'custom_admin:news_add' %}" class="btn btn-primary">Ajouter une actualité</a>
+    </div>
+
+    <!-- Formulaire pour importer un fichier CSV -->
+    <div class="text-center mt-4">
+        <form action="{% url 'custom_admin:news_list' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="csv_file">Importer un fichier CSV :</label>
+            <input type="file" name="csv_file" id="csv_file" accept=".csv" required>
+            <button type="submit" class="btn btn-info mt-2">Importer</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

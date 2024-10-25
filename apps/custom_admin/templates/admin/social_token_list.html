@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Liste des Social Tokens</h1>
+    
+    <!-- Bouton "Ajouter" -->
+    <div class="mb-3">
+        <a href="{% url 'custom_admin:create_social_token' %}" class="btn btn-success">Ajouter Social Token</a>
+    </div>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Compte Social</th>
+                <th>Token</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for token in social_tokens %}
+            <tr>
+                <td>{{ token.id }}</td>
+                <td>{{ token.account.user.username }} ({{ token.account.provider }})</td>
+                <td>{{ token.token|truncatechars:15 }}</td>
+                <td>
+                    <a href="{% url 'custom_admin:edit_social_token' token.id %}" class="btn btn-primary">Modifier</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

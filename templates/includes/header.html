@@ -1,0 +1,189 @@
+{% load static %}
+<header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+        <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto">
+            <!-- GIF caché au départ via CSS pour éviter tout affichage non contrôlé -->
+            <img id="gif" style="display:none;" src="{% static 'assets/img/Logo-2.gif' %}" alt="GIF animé">
+            <img id="image" style="display:none;" src="{% static 'assets/img/22.png' %}" alt="Image statique">
+        </a>
+        
+        <!-- Inclure jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
+        <script>
+            $(document).ready(function() {
+                // Durée de l'animation du GIF en millisecondes
+                var gifDuration = 2200; // 1.8 seconde
+                var gifPlayed = false;  // Variable pour indiquer si le GIF a déjà été joué
+        
+                // Précharge l'image pour éviter tout délai d'affichage
+                var preloadImage = new Image();
+                preloadImage.src = $('#image').attr('src');
+        
+                // Cacher initialement les deux éléments (sécurité pour éviter les doublons)
+                $('#gif').css('display', 'none');
+                $('#image').css('display', 'none');
+        
+                // Fonction pour remplacer le GIF par l'image une fois le GIF terminé
+                function replaceGifWithImage() {
+                    requestAnimationFrame(function() {
+                        $('#gif').css('display', 'none');   // Cache le GIF complètement
+                        $('#image').css('display', 'block'); // Affiche l'image sans délai
+                    });
+                }
+        
+                // Fonction pour gérer l'affichage en fonction du défilement
+                function checkScrollPosition() {
+                    var scrollTop = $(window).scrollTop();
+        
+                    if (scrollTop > 200) {
+                        // Si on descend, afficher directement l'image
+                        $('#image').css('display', 'block');
+                        $('#gif').css('display', 'none');
+                    } else {
+                        // Si on est en haut de la page et que le GIF n'a pas encore été joué
+                        if (!gifPlayed) {
+                            $('#gif').css('display', 'block');   // Affiche le GIF
+                            $('#image').css('display', 'none');  // Cache l'image
+        
+                            // Remplacer le GIF par l'image après la durée de l'animation
+                            setTimeout(function() {
+                                replaceGifWithImage();
+                                gifPlayed = true; // Marquer le GIF comme joué
+                            }, gifDuration);
+                        } else {
+                            // Si le GIF a déjà été joué, afficher directement l'image
+                            $('#image').css('display', 'block');
+                            $('#gif').css('display', 'none');
+                        }
+                    }
+                }
+        
+                // Vérifier la position du scroll au chargement de la page
+                checkScrollPosition();
+        
+                // Réappliquer la vérification lors de chaque défilement
+                $(window).scroll(function() {
+                    checkScrollPosition();
+                });
+            });
+        </script>
+        
+        <!-- Inclure jQuery -->
+        
+ 
+        
+
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'subscription_list' %}">Pricing</a></li>
+                <li><a href="{% url 'faq' %}">FAQ</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'Newsletter:newsletter_create' %}">Generate Newsletter</a></li>
+                    {% if user.is_superuser %}
+                        <!-- Menu pour les administrateurs -->
+                        <li><a href="{% url 'custom_admin:dashboard' %}">Dashboard</a></li>
+                    {% else %}
+                        <!-- Menu pour les utilisateurs normaux -->
+                        <li><a href="{% url 'accounts:dashboard' %}"> Dashboard</a></li>
+                    {% endif %}
+                        <li><a href="{% url 'accounts:profile'  %}">Edit Profile</a></li>
+                        <li>
+                            <a href="#" class="nav-link" id="logout-link">Logout</a>
+                            <form id="logout-form" method="post" action="{% url 'account_logout' %}" style="display: none;">
+                                {% csrf_token %}
+                            </form>
+                        </li>
+                        
+                {% else %}
+                        <li><a href="{% url 'account_login' %}">Log In</a></li>
+                        <li><a href="{% url 'accounts:register' %}">Sign Up</a>
+                        </li>
+                {% endif %}
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+    </div>
+
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+    
+
+</header>
+
+<style>
+
+
+.header .logo img {
+    max-height: 56px !important;
+    margin-right: 8px;
+}
+
+
+.header {
+      padding: 5px 0 !important;
+  }
+
+
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: #007bff; /* Couleur de fond du bouton */
+    color: #fff;
+    border-radius: 50%;
+    display: none; /* Le bouton sera caché jusqu'à ce que l'utilisateur scrolle */
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: background 0.3s;
+}
+
+.back-to-top:hover {
+    background: #0056b3;
+}
+
+.back-to-top i {
+    font-size: 24px;
+}
+
+
+</style>
+
+<script>
+document.addEventListener("scroll", function () {
+    const backToTop = document.querySelector(".back-to-top");
+    if (window.scrollY > 200) {  // Si l'utilisateur a scrollé plus de 200px
+        backToTop.style.display = "flex";
+    } else {
+        backToTop.style.display = "none";
+    }
+});
+
+document.querySelector(".back-to-top").addEventListener("click", function (event) {
+    event.preventDefault();
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
+
+</script>
+
+
+<script>
+    document.getElementById('logout-link').addEventListener('click', function(event) {
+        event.preventDefault(); // Empêche l'action par défaut du lien
+        document.getElementById('logout-form').submit(); // Soumet le formulaire de déconnexion
+    });
+</script>

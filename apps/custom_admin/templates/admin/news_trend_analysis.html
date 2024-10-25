@@ -1,0 +1,27 @@
+<h1>Analyse des Tendances des Actualités</h1>
+
+<canvas id="newsTrendsChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('newsTrendsChart').getContext('2d');
+    var newsTrendsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [
+                {% for trend in news_trends %}
+                    "{{ trend.news_type }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Nombre d\'actualités',
+                data: [
+                    {% for trend in news_trends %}
+                        {{ trend.count }},
+                    {% endfor %}
+                ],
+                backgroundColor: '#36A2EB'
+            }]
+        }
+    });
+</script>

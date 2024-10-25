@@ -1,0 +1,22 @@
+<h1>Historique de Facturation</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Utilisateur</th>
+            <th>Montant</th>
+            <th>Statut de Paiement</th>
+            <th>Date de Paiement</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in billing_records %}
+            <tr>
+                <td>{{ record.user_subscription.user.username }}</td>
+                <td>{{ record.amount }}</td>
+                <td>{{ record.payment_status }}</td>
+                <td>{{ record.paid_at|date:"d/m/Y" }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

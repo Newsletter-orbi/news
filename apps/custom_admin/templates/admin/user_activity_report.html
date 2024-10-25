@@ -1,0 +1,25 @@
+<h1>Rapports d'Activité des Utilisateurs</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nom d'utilisateur</th>
+            <th>Nombre de Connexions</th>
+            <th>Newsletters Créées</th>
+            <th>Crédits Utilisés</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in user_activities %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.total_logins }}</td>
+                <td>{{ user.total_newsletters }}</td>
+                <td>{{ user.total_credits_used }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'custom_admin:export_csv' %}" class="btn btn-primary">Exporter en CSV</a>
+<a href="{% url 'custom_admin:export_pdf' %}" class="btn btn-primary">Exporter en PDF</a>

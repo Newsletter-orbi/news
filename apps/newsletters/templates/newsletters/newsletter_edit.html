@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+ 
+{% block title %}
+Edit Newsletter
+{% endblock %}
+ 
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: linear-gradient(to bottom right, #f4ecfe, #ecf0fe) !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+    .btn-hover-effect:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    .content-editor {
+        min-height: 600px;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+</style>
+
+<div class="container mx-auto px-4 py-16">
+    <h1 class="text-4xl md:text-5xl font-bold text-center text-indigo-800 mb-12 tracking-tight">Edit Newsletter</h1>
+    
+    <div class="max-w-7xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8">
+         
+        <form method="post" x-data="{ formSubmitted: false, wordCount: 0, charCount: 0 }" 
+        @submit.prevent="formSubmitted = true; $el.submit()">
+      {% csrf_token %}
+      
+      <div class="mb-8">
+          <label for="newsletter_title" class="block text-lg font-semibold text-gray-700 mb-2">
+              Newsletter Title
+          </label>
+          <input type="text" id="newsletter_title" name="title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" value="{{ newsletter.title }}" required>
+      </div>
+  
+      <div class="mb-8">
+          <label for="main_content" class="block text-lg font-semibold text-gray-700 mb-2">
+              Main Content
+          </label>
+          <div class="relative">
+            <textarea id="main_content" name="content" 
+            class="content-editor w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+            required
+            x-on:input="
+              wordCount = $event.target.value.trim().split(/\s+/).length;
+              charCount = $event.target.value.length;
+            ">    {{ newsletter.content   }}   </textarea>
+              <div class="absolute bottom-2 right-2 text-sm text-gray-500">
+                  <span x-text="wordCount"></span> words | <span x-text="charCount"></span> characters
+              </div>
+          </div>
+      </div>
+  
+      <div class="flex items-center justify-between mt-6">
+          <a href="{% url 'accounts:dashboard' %}" class="btn-hover-effect bg-gradient-to-r from-gray-600 to-gray-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out flex items-center space-x-2">
+              <i class="fas fa-arrow-left"></i>
+              <span>Return to Dashboard</span>
+          </a>
+          <button type="submit" 
+                  class="btn-hover-effect bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out flex items-center space-x-2"
+                  x-bind:disabled="formSubmitted"
+                  x-bind:class="{ 'opacity-50 cursor-not-allowed': formSubmitted }">
+              <span x-show="!formSubmitted" class="flex items-center space-x-2">
+                  <i class="fas fa-save"></i>
+                  <span>Save Newsletter</span>
+              </span>
+              <span x-show="formSubmitted" class="flex items-center space-x-2">
+                  <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Saving...</span>
+              </span>
+          </button>
+      </div>
+  </form>
+  
+
+
+
+    </div>
+
+
+
+
+ 
+</div>
+
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('textareaResizer', () => ({
+        resize() {
+            this.$el.style.height = 'auto';
+            this.$el.style.height = this.$el.scrollHeight + 'px';
+        }
+    }))
+})
+</script>
+{% endblock %}
+

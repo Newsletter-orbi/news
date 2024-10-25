@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Gérer les Groupes{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Gérer les Groupes</h1>
+    <a href="{% url 'custom_admin:group_create' %}" class="btn btn-primary mb-3">Créer un Groupe</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom du Groupe</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for group in object_list %}
+            <tr>
+                <td>{{ group.name }}</td>
+                <td>
+                    <a href="{% url 'custom_admin:group_update' group.pk %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'custom_admin:group_delete' group.pk %}" class="btn btn-sm btn-danger">Supprimer</a>
+                    <a href="{% url 'custom_admin:group_permissions' group.pk %}" class="btn btn-sm btn-info">Permissions</a>
+                    <a href="{% url 'custom_admin:users_by_group' group.name %}" class="btn btn-sm btn-secondary">Utilisateurs</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-danger">Supprimer l'utilisateur</h1>
+    
+    <div class="alert alert-warning text-center mt-4">
+        <p>Êtes-vous sûr de vouloir supprimer l'utilisateur <strong>{{ object.username }}</strong> ?</p>
+        <p>Cela est irréversible et toutes les données associées à cet utilisateur seront supprimées.</p>
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6 text-center">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+                <a href="{% url 'custom_admin:user_list' %}" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

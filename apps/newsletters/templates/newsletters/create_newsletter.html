@@ -1,0 +1,1043 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Generate   Newsletter
+{% endblock %}
+
+ 
+
+{% block content %}
+
+<style>
+    .text-gradient {
+        background: linear-gradient(to right, #007bff, #00c6ff) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+    }
+    .btn-gradient-primary:hover {
+        background: linear-gradient(to right, #0056b3, #00a3cc) !important;
+        transform: translateY(-4px) !important;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .row {
+        display: flex;
+        flex: 1;
+    }
+    .form-control:focus, .form-select:focus {
+        border-color: #007bff !important;
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1) !important;
+    }
+    .rounded-pill {
+        border-radius: 50px !important;
+    }
+    .impact-filter-icon {
+        margin-right: 8px !important; /* Espacement réduit */
+        font-size: 14px !important; /* Taille réduite */
+    }
+    .impact-filter-checkbox {
+        display: none !important;
+    }
+    .impact-filter-label:hover {
+        background-color: #e9ecef !important;
+    }
+    .impact-filter-item {
+        flex: 1 0 calc(50% - 5px);
+        max-width: calc(50% - 5px);
+    }
+    .impact-filter-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important; /* Espacement réduit */
+        margin-bottom: 16px !important; /* Marges réduites */
+    }
+    .news-summary {
+        font-size: 0.875rem !important;
+        line-height: 1.6 !important;
+        color: #6c757d !important;
+    }
+    .news-title {
+        font-weight: 600 !important;
+        font-size: 1.25rem !important; /* Taille ajustée */
+        color: #007bff !important;
+    } 
+    .btn-gradient-success:hover {
+        background: linear-gradient(to right, #218838, #38c273) !important;
+        transform: translateY(-4px) !important;
+    }    
+    .col-lg-3, .col-lg-9 {
+        display: flex;
+        flex-direction: column;
+    }    .news-background {
+        position: absolute !important;
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        background: url('path_to_background_image.jpg') center center/cover no-repeat !important;
+        opacity: 0.08 !important;
+        z-index: -1 !important;
+    }
+    .btn-gradient-primary, .btn-gradient-success {
+        border: none !important;
+        color: white !important;
+        transition: background 0.3s ease-in-out, transform 0.3s ease-in-out !important;
+        padding: 8px 18px !important;
+        font-size: 12px !important; /* Taille ajustée */
+        font-weight: 500 !important;
+    }
+    .btn-gradient-success {
+        background: linear-gradient(to right, #28a745, #48d767);
+    }
+    .impact-filter-checkbox:checked + .impact-filter-label {
+        background-color: #007bff !important;
+        color: white !important;
+        border-color: #007bff !important;
+    }
+    .impact-filter-label {
+        padding: 6px 10px !important; /* Padding réduit */
+        font-size: 0.75rem !important; /* Taille ajustée */
+        background-color: #f8f9fa !important;
+        border: 1px solid #e0e0e0 !important;
+        border-radius: 25px !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        align-items: center !important;
+    }
+    .news-item-card:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 4px 20px rgba(0, 123, 255, 0.15) !important;
+        background: #d2d3ff !important;
+    }
+
+
+    .news-item-card {
+        background: #e6eef5 !important;
+        border-left: 4px solid #007bff !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+        border-radius: 16px !important;
+        padding: 12px !important; /* Padding réduit */
+    }
+    .card {
+        flex: 1; /* Les cartes prennent tout l'espace disponible */
+        height: 100%; /* S'assure que les cartes remplissent la hauteur du conteneur */
+        border-radius: 16px !important;
+        background: #fff !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        margin-bottom: 0px !important; /* Retirer l'espace entre les sections */
+    }
+    .form-control, .form-select {
+        padding: 6px 12px !important; /* Padding réduit */
+        font-size: 0.75rem !important; /* Taille de texte réduite */
+        height: 32px !important; /* Hauteur ajustée */
+        border-radius: 25px !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        transition: all 0.3s ease !important;
+    }
+    .card:hover {
+        transform: none !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+    /* Global Styles */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f0f2f5;
+        color: #2c3e50;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .card {
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    .card-body {
+        padding: 20px;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+    .form-control, .form-select {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #ced4da;
+        border-radius: 25px;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+    }
+    .btn {
+        display: inline-block;
+        font-weight: 500;
+        text-align: center;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border-radius: 25px;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .btn-gradient-primary {
+        color: #fff;
+        background: linear-gradient(to right, #007bff, #00c6ff);
+    }
+    .btn-gradient-success {
+        color: #fff;
+        background: linear-gradient(to right, #28a745, #48d767);
+    }
+    .impact-filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 1rem;
+    }
+    .impact-filter-item {
+        flex: 1 0 calc(50% - 5px);
+    }
+    .impact-filter-label {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        background-color: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 0.875rem;
+    }
+    .impact-filter-checkbox {
+        display: none;
+    }
+    .impact-filter-checkbox:checked + .impact-filter-label {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .impact-filter-icon {
+        margin-right: 8px;
+    }
+    .news-item-card {
+        background: #f8f9fa;
+        border-left: 4px solid #007bff;
+        border-radius: 16px;
+        padding: 15px;
+        margin-bottom: 1rem;
+    }
+    .news-title {
+        font-weight: 600;
+        font-size: 1.125rem;
+        color: #007bff;
+        margin-bottom: 0.5rem;
+    }
+    .news-summary {
+        font-size: 0.875rem;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+    @media (max-width: 992px) {
+        .col-lg-3, .col-lg-9 {
+            width: 100%;
+        }
+    }
+    .impact-filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        .impact-filter-item {
+            flex: 1 0 calc(50% - 5px);
+            min-width: 120px; /* Ensure minimum width for readability */
+        }
+        .impact-filter-label {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 8px 12px;
+            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .impact-filter-checkbox {
+            display: none;
+        }
+        .impact-filter-checkbox:checked + .impact-filter-label {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .impact-filter-icon {
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        @media (max-width: 768px) {
+            .impact-filter-item {
+                flex: 1 0 calc(100% - 10px);
+            }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .impact-filter-item {
+                flex: 1 0 calc(33.333% - 10px);
+            }
+        }
+        @media (min-width: 1025px) {
+            .impact-filter-item {
+                flex: 1 0 calc(25% - 10px);
+            }}
+        .news-container {
+            max-height: 10000px; /* Ajustez cette valeur selon vos besoins */
+            overflow-y: auto;
+            padding-right: 15px; /* Espace pour la barre de défilement */
+        }
+        .news-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .news-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .news-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .news-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .news-item-card {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .news-item-card:hover {
+            background-color: #e9ecef;
+        }
+        .news-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #007bff;
+            margin-bottom: 0.5rem;
+        }
+        .news-summary {
+            font-size: 0.875rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+        .btn-center-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .btn-create-newsletter {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            color: #ffffff;
+            background: linear-gradient(to right, #28a745, #48d767);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-create-newsletter:hover {
+            background: linear-gradient(to right, #218838, #38c273);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .news-item-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .news-item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        .news-content {
+            padding-right: 40px; /* Space for checkbox */
+        }
+        .news-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .news-summary {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        .news-meta {
+            font-size: 0.8rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+        }
+        .news-date, .news-type {
+            margin-right: 10px;
+        }
+        .news-type {
+        background-color: #e9ecef; /* Couleur par défaut */
+        padding: 2px 8px;
+        border-radius: 12px;
+        color: #000; /* Couleur par défaut du texte */
+        }   
+
+        .news-type[data-type="positive"] {
+            background-color: rgba(0, 128, 0, 0.2); /* Fond vert clair pour positif */
+            color: green; /* Texte vert */
+        }
+
+        .news-type[data-type="negative"] {
+            background-color: rgba(255, 0, 0, 0.2); /* Fond rouge clair pour négatif */
+            color: red; /* Texte rouge */
+        }
+
+        .news-type[data-type="neutral"] {
+            background-color: rgba(0, 0, 255, 0.2); /* Fond bleu clair pour neutre */
+            color: blue; /* Texte bleu */
+        }
+
+
+        .news-type[data-type="positive"] {
+            color: green;
+        }
+
+        .news-type[data-type="negative"] {
+            color: red;
+        }
+
+        .news-type[data-type="neutral"] {
+            color: blue;
+        }
+
+        .custom-checkbox {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .custom-checkbox input {
+            display: none;
+        }
+        .checkmark {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .custom-checkbox input:checked + .checkmark {
+            background: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .checkmark:after {
+            content: '';
+            position: absolute;
+            display: none;
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .custom-checkbox input:checked + .checkmark:after {
+            display: block;
+        }
+</style>
+
+ 
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    .btn-create-newsletter {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background: linear-gradient(to right, #28a745, #48d767);
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .btn-create-newsletter:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+    }
+    .btn-create-newsletter.loading {
+        background: linear-gradient(to right, #007bff, #00aaff);
+        position: relative;
+    }
+    .btn-create-newsletter.loading .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 18px;
+        height: 18px;
+        border: 2px solid transparent;
+        border-top: 2px solid #fff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        transform: translate(-50%, -50%);
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .error-message {
+        color: red;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+</style>
+
+ 
+
+<div class="flex flex-col items-center mb-12">
+     <div class="container pt-4 pb-8   ">
+        <div class="row">
+            <div class="col-lg-12  pt-5 pb-8   ">
+
+            <h1 class="text-4xl md:text-5xl font-bold text-center text-indigo-800 mb-12 tracking-tight   ">Generate your Newsletter With IA  <h1>  
+
+            </div  >
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+
+            {% if messages %}
+            <div class="alert-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} d-flex align-items-center">
+                        <div class="icon-container">
+                            {% if message.tags == "success" %}
+                                <i class="fas fa-check-circle"></i>
+                            {% elif message.tags == "error" %}
+                                <i class="fas fa-exclamation-circle"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle"></i>
+                            {% endif %}
+                        </div>
+                        <div class="message-text">
+                            {{ message }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <style>
+
+.alert-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.alert {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    animation: fadeIn 0.6s forwards;
+}
+
+.icon-container {
+    font-size: 24px;
+    margin-right: 12px;
+}
+
+.message-text {
+    flex: 1;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.alert-error .icon-container i {
+    color: #721c24;
+}
+
+.alert-success .icon-container i {
+    color: #155724;
+}
+
+.alert-info .icon-container i {
+    color: #004085;
+}
+
+/* Animation for message appearance */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+        </style>
+
+
+
+            <!-- Sidebar for filters -->
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Filter News</h3>
+
+                        <form method="get">
+                            <div class="mb-4">
+                                <label for="title" class="form-label text-muted">Title</label>
+                                <input type="text" name="title" id="title" class="form-control rounded-pill" value="{{ request.GET.title }}">
+                            </div>
+                            <div class="mb-4">
+                                <label for="start_date" class="form-label text-muted">Start Date</label>
+                                <input type="date" name="start_date" id="start_date" class="form-control rounded-pill" value="{{ request.GET.start_date }}">
+                            </div>
+                            <div class="mb-4">
+                                <label for="end_date" class="form-label text-muted">End Date</label>
+                                <input type="date" name="end_date" id="end_date" class="form-control rounded-pill" value="{{ request.GET.end_date }}">
+                            </div>
+                            <div class="mb-4">
+                                <label for="news_type" class="form-label text-muted">News Type</label>
+                                <select name="news_type" id="news_type" class="form-select rounded-pill">
+                                    {% for type, type_name in form.news_type.field.choices %}
+                                        <option value="{{ type }}" {% if request.GET.news_type == type %}selected{% endif %}>{{ type_name }}</option>
+                                    {% endfor %}
+                                </select>                                
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="type" class="form-label text-muted">News Polarity</label>
+                                <select name="type" id="type" class="form-select rounded-pill">
+                                    {% for type_polarity, type_name in form.type.field.choices %}
+                                        <option value="{{ type_polarity }}" {% if request.GET.type == type_polarity %}selected{% endif %}>{{ type_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="localisation" class="form-label text-muted">Location</label>
+                                <input type="text" name="localisation" id="localisation" class="form-control rounded-pill" value="{{ request.GET.localisation }}">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-muted">Impact Areas</label>
+                                <div class="impact-filter-container">
+                                    <div class="impact-filter-item">
+                                        <input type="checkbox" id="impact_real_estate" name="impact_real_estate" class="impact-filter-checkbox" {% if request.GET.impact_real_estate %}checked{% endif %}>
+                                        <label for="impact_real_estate" class="impact-filter-label">
+                                            <span class="impact-filter-icon">🏢</span>
+                                            Real Estate
+                                        </label>
+                                    </div>
+                                    <div class="impact-filter-item">
+                                        <input type="checkbox" id="impact_technology" name="impact_technology" class="impact-filter-checkbox" {% if request.GET.impact_technology %}checked{% endif %}>
+                                        <label for="impact_technology" class="impact-filter-label">
+                                            <span class="impact-filter-icon">💻</span>
+                                            Technology
+                                        </label>
+                                    </div>
+                                    <div class="impact-filter-item">
+                                        <input type="checkbox" id="impact_finance" name="impact_finance" class="impact-filter-checkbox" {% if request.GET.impact_finance %}checked{% endif %}>
+                                        <label for="impact_finance" class="impact-filter-label">
+                                            <span class="impact-filter-icon">💰</span>
+                                            Finance
+                                        </label>
+                                    </div>
+                                    <div class="impact-filter-item">
+                                        <input type="checkbox" id="impact_construction" name="impact_construction" class="impact-filter-checkbox" {% if request.GET.impact_construction %}checked{% endif %}>
+                                        <label for="impact_construction" class="impact-filter-label">
+                                            <span class="impact-filter-icon">🏗️</span>
+                                            Construction
+                                        </label>
+                                    </div>
+                                    <div class="impact-filter-item">
+                                        <input type="checkbox" id="impact_retail" name="impact_retail" class="impact-filter-checkbox" {% if request.GET.impact_retail %}checked{% endif %}>
+                                        <label for="impact_retail" class="impact-filter-label">
+                                            <span class="impact-filter-icon">🛍️</span>
+                                            Retail
+                                        </label>
+                                    </div>
+                                    <div class="impact-filter-item">
+                                        <input type="checkbox" id="impact_transport_logistics" name="impact_transport_logistics" class="impact-filter-checkbox" {% if request.GET.impact_transport_logistics %}checked{% endif %}>
+                                        <label for="impact_transport_logistics" class="impact-filter-label">
+                                            <span class="impact-filter-icon">🚚</span>
+                                            Transport
+                                        </label>
+                                    </div>
+                                    <div class="impact-filter-item">
+                                        <input type="checkbox" id="impact_education" name="impact_education" class="impact-filter-checkbox" {% if request.GET.impact_education %}checked{% endif %}>
+                                        <label for="impact_education" class="impact-filter-label">
+                                            <span class="impact-filter-icon">🎓</span>
+                                            Education
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-gradient-primary w-100 rounded-pill shadow-sm">Filter News</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content area -->
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-body">
+
+                        {% if filtered_news %}
+                            <h3>Select News to Include</h3>
+                            <form id="newsletterForm" method="post">
+                                {% csrf_token %}
+                                <div class="news-container">
+                                    {% for news_item in filtered_news %}
+                                        <div class="news-item-card">
+                                            <div class="news-content">
+                                                <h5 class="news-title">{{ news_item.title }}</h5>
+                                                <p class="news-summary">{{ news_item.summary }}</p>
+                                                <div class="news-meta">
+                                                    <span class="news-date">{{ news_item.date }}</span>
+                                                    <span class="news-type" data-type="{{ news_item.type }}">{{ news_item.type }}</span>
+                                                </div>
+                                            </div>
+                                            <label class="custom-checkbox">
+                                                <input type="checkbox" name="selected_news" value="{{ news_item.id }}">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="error-message" id="error-message" style="display:none;">
+                                    Please select between 1 and 4 news items.
+                                </div>
+                                <button type="submit" id="createNewsletterBtn" class="btn-create-newsletter">
+                                    Create Newsletter
+                                    <div class="spinner" style="display: none;"></div> <!-- Spinner caché initialement -->
+                                </button>
+                            </form>
+                        {% else %}
+                            <p>No news found. Adjust your filters and try again.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div>
+
+
+    <style>
+        .btn-create-newsletter {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            color: #ffffff;
+            background: linear-gradient(to right, #28a745, #48d767);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .btn-create-newsletter:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        .btn-create-newsletter.loading {
+            background: linear-gradient(to right, #007bff, #00aaff);
+            transform: translateY(-2px); /* Légère translation lors de l'état de chargement */
+            position: relative;
+        }
+        .btn-create-newsletter .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 24px;
+            height: 24px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    
+        .error-message {
+            color: red;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            animation: fade-in 0.5s ease;
+        }
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+
+
+<style>
+    .btn-create-newsletter {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background: linear-gradient(to right, #28a745, #48d767);
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .btn-create-newsletter:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+    }
+    .btn-create-newsletter.loading {
+        background: linear-gradient(to right, #007bff, #00aaff); /* Changement de couleur pendant la création */
+        position: relative;
+    }
+    .btn-create-newsletter.loading .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 18px;
+        height: 18px;
+        border: 2px solid transparent;
+        border-top: 2px solid #fff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        transform: translate(-50%, -50%);
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .error-message {
+        color: red;
+        font-size: 1rem; /* Taille augmentée */
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+     .btn-create-newsletter {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background: linear-gradient(to right, #28a745, #48d767);
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .btn-create-newsletter:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+    }
+    .btn-create-newsletter.loading {
+        background: linear-gradient(to right, #007bff, #00aaff); /* Changement de couleur pendant la création */
+        position: relative;
+    }
+    .btn-create-newsletter.loading .spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 18px;
+        height: 18px;
+        border: 2px solid transparent;
+        border-top: 2px solid #fff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        transform: translate(-50%, -50%);
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .error-message {
+        color: red;
+        font-size: 1rem; /* Taille augmentée */
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+</style>
+ 
+<script>
+    document.getElementById('newsletterForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const checkboxes = document.querySelectorAll('input[name="selected_news"]:checked');
+        const errorMessage = document.getElementById('error-message');
+        const createBtn = document.getElementById('createNewsletterBtn');
+        const spinner = createBtn.querySelector('.spinner');
+
+        // Validation du nombre de news sélectionnées
+        if (checkboxes.length < 1 || checkboxes.length > 4) {
+            errorMessage.style.display = 'block'; // Afficher l'erreur si le nombre est incorrect
+        } else {
+            errorMessage.style.display = 'none'; // Masquer le message d'erreur
+
+            // Désactiver le bouton et afficher le spinner
+            createBtn.disabled = true;
+            createBtn.classList.add('loading'); // Appliquer la classe de chargement
+            spinner.style.display = 'block';  // Afficher le spinner
+            createBtn.innerHTML = "Votre newsletter est en création..."; // Message du bouton
+
+            // Envoyer le formulaire après une courte pause pour montrer le changement de bouton
+            setTimeout(function() {
+                document.getElementById('newsletterForm').submit();
+            }, 1000);  // Pause de 1 seconde avant de soumettre
+        }
+    });
+</script>
+
+
+
+
+
+
+
+
+
+<style>
+
+
+/* Limiter la hauteur de la section des nouvelles et ajouter le défilement */
+.news-container {
+    max-height: 800px  !important  ; /* Fixer une hauteur maximale pour la section des nouvelles */
+    overflow-y: auto !important   ;  /* Activer le défilement vertical si le contenu dépasse */
+    padding-right: 15px  !important  ;
+    margin-top : 15px    !important  ;
+    margin-bottom : 15px !important  ;
+
+}
+
+#createNewsletterBtn{
+
+margin-bottom :  10px !important  ;
+
+}
+
+
+/* Style pour la barre de défilement */
+.news-container::-webkit-scrollbar {
+    width: 8px  !important   ;
+}
+
+.news-container::-webkit-scrollbar-track {
+    background: #f1f1f1 !important   ;
+    border-radius: 10px  !important   ;
+}
+
+.news-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px  !important   ;
+}
+
+.news-container::-webkit-scrollbar-thumb:hover {
+    background: #555  !important   ;
+}
+
+/* Assurer que la section des filtres et celle des nouvelles ont la même hauteur */
+.card {
+    height: 100%  !important   ;
+}
+
+.col-lg-9 .card {
+    display: flex !important    ;
+    flex-direction: column !important    ;
+}
+
+
+
+</style>
+
+
+
+ 
+
+
+
+{% endblock %}

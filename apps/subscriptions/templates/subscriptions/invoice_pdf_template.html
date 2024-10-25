@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .invoice-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 12px; /* Added border-radius for smooth corners */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #e4fcfa;
+            color: rgb(13, 172, 61);
+            border-radius: 10px 10px 0 0; /* Top rounded corners for the header */
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 26px; /* Adjusted font size for title */
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 16px; /* Slightly increased font size for readability */
+        }
+
+        .invoice-header,
+        .invoice-details {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        .invoice-header td,
+        .invoice-details td {
+            padding: 12px 15px; /* Increased padding for better spacing */
+            border: 1px solid #ddd;
+            border-radius: 15px; /* Added border-radius for table cells */
+        }
+
+        h2 {
+            font-size: 20px; /* Increased subheading size */
+            margin-bottom: 15px;
+            color: #4A90E2;
+            font-weight: 600;
+        }
+
+        .total {
+            font-size: 18px; /* Emphasized the total */
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .invoice-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="invoice-container">
+        <div class="header">
+            <h1>Invoice</h1>
+            <p>Thank you for your purchase!</p>
+        </div>
+
+             
+            <table class="invoice-header">
+                <tr>
+                    <td><strong>Date:</strong> {{ payment_details.date|date:"d M Y" }}</td>
+                    <td><strong>Name:</strong> {{ payment_details.name_customer }}</td>
+                    <td><strong>Email:</strong> {{ payment_details.email }}</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Invoice Number:</strong> {{ payment_details.invoice_number }}</td>
+                </tr>
+            </table>
+
+ 
+        <h2>Plan Details</h2>
+        <table class="invoice-details">
+            <tr>
+                <td><strong>Plan Name</strong></td>
+                <td>{{ payment_details.plan_name }}</td>
+            </tr>
+            <tr>
+                <td><strong>Plan Type</strong></td>
+                <td>{{ payment_details.plan_type }}</td>
+            </tr>
+            <tr>
+                <td><strong>Description</strong></td>
+                <td>{{ payment_details.plan_description }}</td>
+            </tr>
+        </table>
+
+        <h2>Payment Details</h2>
+        <table class="invoice-details">
+            <tr>
+                <td><strong>Amount Paid</strong></td>
+                <td>${{ payment_details.amount_paid }}</td>
+            </tr>
+            <tr>
+                <td><strong>Payment Status</strong></td>
+                <td>{{ payment_details.payment_status }}</td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            <p>Generated on {{ payment_details.date|date:"d M Y H:i" }}</p>
+        </div>
+    </div>
+</body>
+
+</html>

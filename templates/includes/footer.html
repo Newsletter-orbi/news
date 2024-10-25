@@ -1,0 +1,122 @@
+<footer id="footer" class="footer bg-white py-5">
+    <div class="container footer-top">
+        <div class="row gy-4">
+            <!-- About Section -->
+            <div class="col-lg-4 col-md-6 footer-about">
+                <a href="{% url 'home' %}" class="d-flex align-items-center mb-3">
+                    <span class="sitename h4">Newsletter AI</span>
+                </a>
+                <div class="footer-contact pt-3">
+                    <p><i class="bi bi-geo-alt me-2"></i>Champs-Élysées, 75008 Paris, France</p>
+                    <p><i class="bi bi-telephone me-2"></i><strong>Téléphone:</strong> +33 (0) 1 84 88 38 14</p>
+                    <p><i class="bi bi-envelope me-2"></i><strong>Email:</strong> info@example.com</p>
+                </div>
+            </div>
+    
+            <!-- Useful Links -->
+            <div class="col-lg-4 col-md-6 footer-links">
+                <h4>Liens Utiles</h4>
+                <ul class="list-unstyled">
+                    <li class="mb-2 d-flex align-items-center">
+                        <i class="bi bi-house-door me-2"></i>
+                        <a href="{% url 'home' %}" class="text-dark">Accueil</a>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center">
+                        <i class="bi bi-cash-stack me-2"></i>
+                        <a href="{% url 'subscription_list' %}" class="text-dark">Tarification</a>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center">
+                        <i class="bi bi-question-circle me-2"></i>
+                        <a href="{% url 'faq' %}" class="text-dark">FAQ</a>
+                    </li>
+                    <li class="mb-2 d-flex align-items-center">
+                        <i class="bi bi-envelope-paper me-2"></i>
+                        <a href="{% url 'contact' %}" class="text-dark">Contact</a>
+                    </li>
+                </ul>
+            </div>
+    
+            <!-- Social Media Links -->
+            <div class="col-lg-4 col-md-12 footer-follow">
+                <h4>Suivez-nous</h4>
+                <div class="social-links d-flex">
+                    <a href="#" class="me-3 text-dark"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="me-3 text-dark"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="me-3 text-dark"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container text-center mt-4">
+        <p class="mb-0">© Copyright <strong class="sitename">Newsletter AI</strong> All Rights Reserved</p>
+    </div>
+</footer>
+
+<style>
+    /* Style général pour les icônes */
+    .footer .bi {
+        font-size: 1.4em;
+        vertical-align: middle;
+        color: inherit;
+    }
+
+    /* Style pour les liens utiles avec icônes alignées */
+    .footer-links ul li i {
+        font-size: 1.4em;
+        margin-right: 8px;
+        vertical-align: middle;
+        color: #6c757d; /* Couleur légèrement gris pour les icônes */
+    }
+
+    .footer-links ul li a {
+        color: inherit;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .footer-links ul li a:hover {
+        color: #f6fbff; /* Couleur de survol en bleu */
+     }
+
+    /* Style des icônes des réseaux sociaux */
+    .social-links .bi {
+        font-size: 1.8em;
+        transition: color 0.3s ease;
+    }
+
+    .social-links a:hover .bi {
+        color: #007bff;
+    }
+
+    /* Style pour la taille et la police du nom */
+    .footer-about .sitename {
+        font-size: 2em;
+        font-weight: bold;
+    }
+
+    /* Ajustement pour les paragraphes des contacts */
+    .footer-contact p {
+        margin-bottom: 12px;
+        font-size: 16px;
+        color: inherit;
+    }
+
+    /* Footer global avec réglages de padding */
+    .footer {
+        font-size: 18px !important;
+        padding-bottom: 15px !important;
+    }
+
+    /* Media queries pour petits écrans */
+    @media (max-width: 768px) {
+        .footer-about .sitename {
+            font-size: 1.6em;
+        }
+
+        .social-links .bi {
+            font-size: 1.5em;
+        }
+    }
+</style>

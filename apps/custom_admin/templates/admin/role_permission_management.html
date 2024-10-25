@@ -1,0 +1,11 @@
+<h1>Gestion des Rôles et Permissions</h1>
+
+<h3>Utilisateurs par Groupe</h3>
+<ul>
+    {% for group in users_by_group %}
+        <li>{{ group.groups__name }}: {{ group.total }} utilisateurs</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'custom_admin:group_list' %}" class="btn btn-primary">Gérer les Groupes</a>
+ 

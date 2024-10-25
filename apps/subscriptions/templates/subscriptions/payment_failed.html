@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}Payement Failed {% endblock %}
+ 
+{% block content %}
+ 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+    </style>
+<div class="bg-gradient-to-br from-red-100 to-pink-200 min-h-screen font-[Poppins] antialiased">
+    <div class="container mx-auto px-4 py-16">
+        <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div class="p-8 fade-in">
+                <div class="flex items-center justify-center mb-8">
+                    <svg class="w-16 h-16 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-center text-red-800 mb-4">Échec du Paiement</h1>
+                <p class="text-center text-gray-600 mb-8">Nous sommes désolés, mais votre transaction n'a pas pu être complétée. Veuillez vérifier vos informations et réessayer.</p>
+                
+ 
+                <div class="border-t border-gray-200 pt-8 mb-8">
+                    <h2 class="text-2xl font-semibold text-red-600 mb-4">Détails de la Transaction</h2>
+ 
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-600">Name Customer :</p>
+                            <p class="font-medium">    {{ payment_details.name_customer }}    </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Email:</p>
+                            <p class="font-medium">   {{ payment_details.email }}   </p>
+                        </div>
+
+                        <div>
+                            <p class="text-sm text-gray-600">Invoice Number:</p>
+                            <p class="font-medium"> {{ payment_details.invoice_number }}   </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Date:</p>
+                           
+                            
+                            <p class="font-medium">
+                                {% if payment_details.date != "N/A" %}
+                                    {{ payment_details.date|date:"d M Y H:i" }}
+                                {% else %}
+                                    Not Available
+                                {% endif %}
+                            </p>
+                             
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Amount Paid:</p>
+                            <p class="font-medium">${{ payment_details.amount_paid }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Payment Status:</p>
+                            <p class="font-medium">{{ payment_details.payment_status }}</p>
+                        </div>
+                    </div>
+ 
+                </div>
+                
+                <div class="border-t border-gray-200 pt-8">
+                    <h3 class="text-xl font-semibold text-red-600 mb-4">Raison de l'Échec</h3>
+                    <div class="bg-red-50 rounded-lg p-4 mb-4">
+                        <p class="text-red-700">{{ error_message }}</p>
+                    </div>
+                    <h3 class="text-xl font-semibold text-red-600 mb-4">Que faire maintenant ?</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>Vérifiez le solde de votre compte bancaire</li>
+                        <li>Assurez-vous que les informations de votre carte sont correctes</li>
+                        <li>Essayez une autre méthode de paiement</li>
+                        <li>Contactez votre banque si le problème persiste</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gray-50 p-8 fade-in" style="animation-delay: 0.2s;">
+                <div class="flex justify-between items-center">
+                    <a href="{% url     'subscription_list'   %}" class="text-red-600 hover:text-red-800 transition-colors duration-300">
+                        <svg class="w-6 h-6 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path>
+                        </svg>
+                        Retour à la page de paiement
+                    </a>
+                    <a   href="{% url 'contact' %}"   class="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors duration-300">
+                        Contacter le Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

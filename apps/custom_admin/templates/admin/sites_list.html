@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Liste des Sites</h1>
+    
+    <!-- Bouton "Ajouter" -->
+    <div class="mb-3">
+        <a href="{% url 'custom_admin:create_site' %}" class="btn btn-success">Ajouter un Site</a>
+    </div>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Domaine</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for site in sites %}
+            <tr>
+                <td>{{ site.id }}</td>
+                <td>{{ site.name }}</td>
+                <td>{{ site.domain }}</td>
+                <td>
+                    <a href="{% url 'custom_admin:edit_site' site.id %}" class="btn btn-primary">Modifier</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

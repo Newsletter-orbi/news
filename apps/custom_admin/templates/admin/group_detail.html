@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Détails du Groupe{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">{{ group.name }}</h1>
+    <h5>Permissions</h5>
+    <ul>
+        {% for permission in group.permissions.all %}
+        <li>{{ permission.name }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'custom_admin:group_update' group.pk %}" class="btn btn-primary">Modifier le Groupe</a>
+</div>
+{% endblock %}

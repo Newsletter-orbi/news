@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Liste des Newsletters</h1>
+
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Date de création</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for newsletter in object_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ newsletter.title }}</td>
+                <td>{{ newsletter.author.username }}</td>
+                <td>{{ newsletter.created_at }}</td>
+                <td>
+                    <a href="{% url 'custom_admin:newsletter_edit' newsletter.id %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'custom_admin:newsletter_delete' newsletter.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette newsletter ?');">Supprimer</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">Aucune newsletter trouvée.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a href="{% url 'custom_admin:newsletter_add' %}" class="btn btn-primary">Ajouter une newsletter</a>
+    </div>
+</div>
+{% endblock %}

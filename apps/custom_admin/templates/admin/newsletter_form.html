@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">
+        {% if object %}
+            Modifier la Newsletter : {{ object.title }}
+        {% else %}
+            Ajouter une Nouvelle Newsletter
+        {% endif %}
+    </h1>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="title">Titre de la Newsletter</label>
+                    <input type="text" name="title" class="form-control" id="title" value="{{ form.title.value|default_if_none:'' }}" required>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="content">Contenu</label>
+                    <textarea name="content" class="form-control" id="content" rows="6" required>{{ form.content.value|default_if_none:'' }}</textarea>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="news">Sélectionner les actualités à inclure</label>
+                    <select name="news" id="news" class="form-control" multiple>
+                        {% for news_item in form.news.field.queryset %}
+                            <option value="{{ news_item.pk }}" {% if news_item in form.news.value %}selected{% endif %}>
+                                {{ news_item.title }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group text-center mt-4">
+                    <button type="submit" class="btn btn-success">
+                        {% if object %}
+                            Modifier la Newsletter
+                        {% else %}
+                            Ajouter la Newsletter
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

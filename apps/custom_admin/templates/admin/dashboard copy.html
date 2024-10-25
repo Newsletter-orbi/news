@@ -1,0 +1,633 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="{% static 'css/dashboard-styles.css' %}" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<style>
+    :root {
+        --primary-color: #3498db;
+        --secondary-color: #182ef0;
+        --background-color: #f5f7fa;
+        --text-color: #34495e;
+        --card-background: #ffffff;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h1, h5 {
+        margin-bottom: 20px;
+        color: var(--primary-color);
+    }
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background-color: var(--card-background);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h5 {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+    }
+
+    .card p {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: var(--secondary-color);
+    }
+
+    .chart-container {
+        background-color: var(--card-background);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #2980b9;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+  
+<div class="container mt-5">
+    <h1 class="mb-4">Admin Dashboard</h1>
+
+    <!-- Statistiques générales -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card p-3">
+                <h5>Total Utilisateurs</h5>
+                <p>{{ total_users }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <h5>Total Actualités</h5>
+                <p>{{ total_news }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <h5>Total Newsletters</h5>
+                <p>{{ total_newsletters }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <h5>Total Crédits</h5>
+                <p>{{ total_credits }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistiques financières -->
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card p-3">
+                <h5>Abonnements Actifs</h5>
+                <p>{{ total_subscriptions }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <h5>Revenus Totals</h5>
+                <p>${{ total_revenue }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <h5>Revenus Mensuels</h5>
+                <p>${{ monthly_revenue }}</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3">
+                <h5>Paiements en Attente</h5>
+                <p>{{ pending_payments }}</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    
+ 
+    <div class="row mt-5">
+        <!-- Top 5 utilisateurs par nombre de newsletters créées -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Top 5 utilisateurs par nombre de newsletters créées</h5>
+                    <ul>
+                        {% for user in top_users_by_newsletters %}
+                            <li>{{ user.username }} - {{ user.total_newsletters }} newsletters créées</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <!-- Top 5 utilisateurs les plus engagés -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Top 5 utilisateurs les plus engagés</h5>
+                    <ul>
+                        {% for user in user_engagement %}
+                            <li>{{ user.username }} - {{ user.total_logins }} connexions</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <div class="row mt-5">
+        <!-- Répartition géographique des utilisateurs -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Répartition géographique des utilisateurs</h5>
+                    <ul>
+                        {% for user in user_distribution_by_country %}
+                            <li>{{ user.country }} - {{ user.total }} utilisateurs</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <!-- Répartition des paiements par méthode -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Répartition des paiements par méthode</h5>
+                    <ul>
+                        {% for payment in payments_by_method %}
+                            <li>{{ payment.payment_method }} - {{ payment.total }} paiements</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+    <div class="container mt-5">
+        <h1 class="mb-4">Statut des Utilisateurs</h1>
+    
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom d'utilisateur</th>
+                    <th>Email</th>
+                    <th>Statut</th>
+                    <th>Date de Dernière Connexion</th>
+                    <th>Heure de Dernière Connexion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_data %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.status == 'En ligne' %}
+                            <span class="badge badge-success"><i class="fas fa-circle"></i> {{ user.status }}</span>
+                        {% else %}
+                            <span class="badge badge-secondary"><i class="fas fa-circle"></i> {{ user.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.date_last_login }}</td>
+                    <td>{{ user.time_last_login }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+ 
+    <!-- Graphiques -->
+    <div class="row mt-5">
+        <!-- Graphique des abonnements par plan -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Répartition des abonnements par plan</h5>
+                    <canvas id="subscriptionsByPlanChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphique de l'utilisation des crédits par mois -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Utilisation des crédits par mois</h5>
+                    <canvas id="creditsByMonthChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <!-- Graphique des revenus mensuels -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Revenus par mois</h5>
+                    <canvas id="revenueByMonthChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphique des types d'actualités les plus populaires -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Types d'actualités les plus populaires</h5>
+                    <canvas id="newsByTypeChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <!-- Graphique des newsletters créées par mois -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Newsletters créées par mois</h5>
+                    <canvas id="newslettersByMonthChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gestion des modules -->
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gérer les utilisateurs</h5>
+                    <p class="card-text">Ajouter, modifier ou supprimer des utilisateurs.</p>
+                    <a href="{% url 'custom_admin:user_list' %}" class="btn btn-primary">Gérer les utilisateurs</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gérer les crédits</h5>
+                    <p class="card-text">Voir et modifier les crédits des utilisateurs.</p>
+                    <a href="{% url 'custom_admin:credit_list' %}" class="btn btn-primary">Gérer les crédits</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gérer les actualités</h5>
+                    <p class="card-text">Ajouter, modifier ou supprimer des actualités.</p>
+                    <a href="{% url 'custom_admin:news_list' %}" class="btn btn-primary">Gérer les actualités</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gérer les newsletters</h5>
+                    <p class="card-text">Voir, ajouter, modifier ou supprimer des newsletters.</p>
+                    <a href="{% url 'custom_admin:newsletter_list' %}" class="btn btn-primary">Gérer les newsletters</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gérer les abonnements</h5>
+                    <p class="card-text">Voir et modifier les plans d'abonnement.</p>
+                    <a href="{% url 'custom_admin:subscription_list' %}" class="btn btn-primary">Gérer les abonnements</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gérer les paiements</h5>
+                    <p class="card-text">Voir et gérer tous les paiements effectués.</p>
+                    <a href="{% url 'custom_admin:paiement_list' %}" class="btn btn-primary">Gérer les paiements</a>
+                </div>
+            </div>
+        </div>
+ 
+    </div>
+</div>
+  
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Gérer les Groupes</h5>
+                <p class="card-text">Ajouter, modifier ou supprimer des groupes d'utilisateurs.</p>
+                <a href="{% url 'custom_admin:manage_groups' %}" class="btn btn-primary">Gérer les Groupes</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Gérer les Permissions</h5>
+                <p class="card-text">Voir et modifier les permissions des groupes.</p>
+                <a href="{% url 'custom_admin:manage_permissions' %}" class="btn btn-primary">Gérer les Permissions</a>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Gérer les Sites</h5>
+                <p class="card-text">Voir, ajouter, modifier ou supprimer des sites.</p>
+                <a href="{% url 'custom_admin:site_list' %}" class="btn btn-primary">Gérer les Sites</a>
+            </div>
+        </div>
+    </div>
+    <!-- autres boutons déjà existants -->
+</div>
+
+<div class="row mt-4">
+    <!-- Gérer les Social Accounts -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Gérer les Social Accounts</h5>
+                <p class="card-text">Voir, ajouter, modifier ou supprimer des social accounts.</p>
+                <a href="{% url 'custom_admin:social_account_list' %}" class="btn btn-primary">Gérer les Social Accounts</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gérer les Social Application Tokens -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Gérer les Social Tokens</h5>
+                <p class="card-text">Voir, ajouter, modifier ou supprimer des social application tokens.</p>
+                <a href="{% url 'custom_admin:social_token_list' %}" class="btn btn-primary">Gérer les Social Tokens</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gérer les Social Applications -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Gérer les Social Applications</h5>
+                <p class="card-text">Voir, ajouter, modifier ou supprimer des social applications.</p>
+                <a href="{% url 'custom_admin:social_app_list' %}" class="btn btn-primary">Gérer les Social Applications</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+<!-- Importation de Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Scripts pour les graphiques -->
+<script>
+    // Graphique Répartition des abonnements par plan
+    var ctx = document.getElementById('subscriptionsByPlanChart').getContext('2d');
+    var subscriptionsByPlanChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [
+                {% for plan in subscriptions_by_plan %}
+                "{{ plan.plan__name }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for plan in subscriptions_by_plan %}
+                    {{ plan.count }},
+                    {% endfor %}
+                ],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+            }]
+        }
+    });
+
+    // Graphique Utilisation des crédits par mois
+    var ctx2 = document.getElementById('creditsByMonthChart').getContext('2d');
+    var creditsByMonthChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: [
+                {% for month in credits_by_month %}
+                "{{ month.month|date:'F Y' }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Crédits utilisés par mois',
+                data: [
+                    {% for month in credits_by_month %}
+                    {{ month.total_credits }},
+                    {% endfor %}
+                ],
+                backgroundColor: '#36A2EB',
+            }]
+        }
+    });
+
+    // Graphique Revenus par mois
+    var ctx3 = document.getElementById('revenueByMonthChart').getContext('2d');
+    var revenueByMonthChart = new Chart(ctx3, {
+        type: 'line',
+        data: {
+            labels: [
+                {% for month in revenue_by_month %}
+                "{{ month.month|date:'F Y' }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Revenus par mois',
+                data: [
+                    {% for month in revenue_by_month %}
+                    {{ month.total_revenue }},
+                    {% endfor %}
+                ],
+                borderColor: '#4CAF50',
+                fill: false,
+            }]
+        }
+    });
+
+    // Graphique Types d'actualités les plus populaires
+    var ctx4 = document.getElementById('newsByTypeChart').getContext('2d');
+    var newsByTypeChart = new Chart(ctx4, {
+        type: 'pie',
+        data: {
+            labels: [
+                {% for type in news_by_type %}
+                "{{ type.news_type }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for type in news_by_type %}
+                    {{ type.count }},
+                    {% endfor %}
+                ],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+            }]
+        }
+    });
+
+    // Graphique Newsletters créées par mois
+    var ctx5 = document.getElementById('newslettersByMonthChart').getContext('2d');
+    var newslettersByMonthChart = new Chart(ctx5, {
+        type: 'line',
+        data: {
+            labels: [
+                {% for month in newsletters_by_month %}
+                "{{ month.month|date:'F Y' }}",
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Newsletters créées par mois',
+                data: [
+                    {% for month in newsletters_by_month %}
+                    {{ month.count }},
+                    {% endfor %}
+                ],
+                borderColor: '#FF6384',
+                fill: false,
+            }]
+        }
+    });
+</script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Script pour le graphique -->
+<script>
+    var ctx = document.getElementById('subscriptionsByPlanChart').getContext('2d');
+    var subscriptionsByPlanChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [
+                {% for plan in subscriptions_by_plan %}
+                    "{{ plan.plan__name }} ({{ plan.plan__plan_type|capfirst }})",
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for plan in subscriptions_by_plan %}
+                        {{ plan.count }},
+                    {% endfor %}
+                ],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw + ' abonnés';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+ 
+{% endblock %}

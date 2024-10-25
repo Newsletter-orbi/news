@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Modifier Social Account</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="provider">Provider</label>
+            <input type="text" id="provider" name="provider" value="{{ account.provider }}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="uid">UID</label>
+            <input type="text" id="uid" name="uid" value="{{ account.uid }}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+    </form>
+</div>
+{% endblock %}

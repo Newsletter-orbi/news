@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    404 - Page Not Found
+{% endblock %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+<style>
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+    .float { animation: float 6s ease-in-out infinite; }
+
+    body {
+        background: linear-gradient(to bottom right, #f4ecfe, #ecf0fe) !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .notfound-404 h1 {
+    background: url("{% static 'assets/img/bg.png' %}") no-repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: cover;
+    background-position: center;
+}
+</style>
+
+<div class="flex items-center justify-center min-h-screen">
+    <div class="text-center px-4 max-w-lg">
+        <div class="notfound-404 mb-8">
+            <h1 class="text-9xl font-black text-indigo-600 float"  >404</h1>
+        </div>
+        <h2 class="text-4xl font-bold text-indigo-800 mb-4">Oops! Page not found</h2>
+        <p class="text-xl text-gray-600 mb-8">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+        <a href="{% url 'home' %}" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-full hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 inline-block text-lg font-medium shadow-lg hover:shadow-xl">
+            Go To Homepage
+        </a>
+    </div>
+</div>
+{% endblock %}

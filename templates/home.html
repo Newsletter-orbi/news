@@ -1,0 +1,458 @@
+{% extends 'base.html' %}
+{% load static %}
+ 
+{% block title %}
+  The Newsletter AI Engine 
+{% endblock %}
+
+{% block content %}
+
+<style>
+  @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+  }
+  .float { animation: float 6s ease-in-out infinite; }
+
+  body {
+      background: linear-gradient(to bottom right, #f4ecfe, #ecf0fe) !important;
+      font-family: 'Poppins', sans-serif !important;
+  }
+</style>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero section">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          <h1  >Welcome to the ultimate Newsletter Engine !</h1>
+          <p    data-aos-delay="100">This is the home page of the AI-generated Newsletter Platform, Here you can build the latest news for your followers .</p>
+          <div class="d-flex flex-column flex-md-row"  data-aos-delay="200">
+            <a href="#" class="btn-get-started">Get Started <i class="bi bi-arrow-right"></i></a>
+            <a href="https://www.youtube.com" class="glightbox btn-watch-video d-flex align-items-center justify-content-center ms-0 ms-md-4 mt-4 mt-md-0"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" >
+          <img src="/static/assets/img/AI_newsletter.png" class="img-fluid animated" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+  
+   
+  <section id="about" class="about section">
+    <div class="container"  >
+      <div class="row gx-0">
+        <div class="col-lg-6 d-flex flex-column justify-content-center"   data-aos-delay="200">
+          <div class="content">
+            <h3>Why Choose Us?</h3>
+            <h2>Stay informed with the latest news and updates delivered directly to your inbox.</h2>
+            <p>
+              Sign up to start receiving our newsletters or log in to manage your account.
+            </p>
+            <div class="text-center text-lg-start">
+              <a href="#" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+                <span>Get Started</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 d-flex align-items-center"   data-aos-delay="200">
+          <img src="{% static 'assets/img/about.jpg' %}" class="img-fluid" alt="">
+           
+        </div>
+      </div>
+    </div>
+  </section>
+  <main class="main">
+
+    <section id="values" class="values section">
+      <div class="container section-title">
+        <h2>Our Values</h2>
+        <p>What we value most in our AI-driven newsletter platform</p>
+      </div>
+      <div class="container">
+        <div class="row gy-4">
+          <!-- Innovation -->
+          <div class="col-lg-4" data-aos-delay="100">
+            <div class="card">
+              <img src="{% static 'assets/img/values-1.png' %}" class="img-fluid" alt="Innovation and Technology">
+              <h3>Innovation & Technology</h3>
+              <p>We leverage cutting-edge AI technology to transform the way newsletters are created. Our platform ensures efficiency, accuracy, and the power of automation to save you time and effort.</p>
+            </div>
+          </div>
+          <!-- Personalization -->
+          <div class="col-lg-4" data-aos-delay="200">
+            <div class="card">
+              <img src="{% static 'assets/img/values-2.png' %}" class="img-fluid" alt="Personalization">
+              <h3>Personalization</h3>
+              <p>Every newsletter is tailored to match your audience's preferences. Our AI algorithms analyze data to provide content that is relevant, engaging, and targeted, maximizing impact.</p>
+            </div>
+          </div>
+          <!-- Simplicity & Ease of Use -->
+          <div class="col-lg-4" data-aos-delay="300">
+            <div class="card">
+              <img src="{% static 'assets/img/values-3.png' %}" class="img-fluid" alt="Simplicity and Efficiency">
+              <h3>Simplicity & Efficiency</h3>
+              <p>Our platform is designed for simplicity. Whether you're a novice or an expert, our user-friendly interface helps you generate professional newsletters in just a few clicks.</p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+     
+    <section id="stats" class="stats section">
+      <div class="container" data-aos-delay="100">
+        <div class="row gy-4">
+    
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item d-flex align-items-center w-100 h-100">
+              <i class="bi bi-emoji-smile color-blue flex-shrink-0"></i>
+              <div>
+                <span data-purecounter-start="0" data-purecounter-end="1500" data-purecounter-duration="1" class="purecounter">1500</span>
+                <p>Happy Users</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item d-flex align-items-center w-100 h-100">
+              <i class="bi bi-journal-richtext color-orange flex-shrink-0" style="color: #ee6c20;"></i>
+              <div>
+                <span data-purecounter-start="0" data-purecounter-end="5000" data-purecounter-duration="1" class="purecounter">5000</span>
+                <p>Newsletters Generated</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item d-flex align-items-center w-100 h-100">
+              <i class="bi bi-sliders color-purple flex-shrink-0"></i>
+              <div>
+                <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1" class="purecounter">85</span>
+                <p>Personalization Rate (%)</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item d-flex align-items-center w-100 h-100">
+              <i class="bi bi-hand-thumbs-up color-blue flex-shrink-0"></i>
+              <div>
+                <span data-purecounter-start="0" data-purecounter-end="95" data-purecounter-duration="1" class="purecounter">95</span>
+                <p>Client Satisfaction (%)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </section>
+      
+    <section id="features" class="features section">
+      <div class="container section-title">
+        <h2>Advanced Features</h2>
+        <p>Powerful tools to help you create effective AI-driven newsletters with ease.</p>
+      </div>
+    
+      <div class="container">
+        <div class="row gy-5 align-items-stretch">
+    
+          <!-- Image Feature -->
+          <div class="col-xl-6 d-flex align-items-center"   data-aos-delay="100">
+            <img src="{% static 'assets/img/features.png' %}" class="img-fluid" alt="Advanced AI Newsletter Features">
+          </div>
+    
+          <!-- Features List -->
+          <div class="col-xl-6 d-flex">
+            <div class="row align-self-center gy-4 w-100">
+    
+              <!-- Feature 1 -->
+              <div class="col-md-6 d-flex">
+                <div class="feature-box d-flex flex-column align-items-start justify-content-between p-4 h-100" data-aos-delay="200">
+                  <i class="bi bi-check-circle"></i>
+                  <h3>AI-Powered Content Generation</h3>
+                  <p>Automatically generate quality newsletter content, saving time and effort.</p>
+                </div>
+              </div>
+    
+              <!-- Feature 2 -->
+              <div class="col-md-6 d-flex">
+                <div class="feature-box d-flex flex-column align-items-start justify-content-between p-4 h-100" data-aos-delay="300">
+                  <i class="bi bi-check-circle"></i>
+                  <h3>Customizable Templates</h3>
+                  <p>Choose and customize professional templates to match your brand.</p>
+                </div>
+              </div>
+    
+              <!-- Feature 3 -->
+              <div class="col-md-6 d-flex">
+                <div class="feature-box d-flex flex-column align-items-start justify-content-between p-4 h-100" data-aos-delay="400">
+                  <i class="bi bi-check-circle"></i>
+                  <h3>Real-Time Analytics</h3>
+                  <p>Monitor performance with real-time insights and improve your newsletters.</p>
+                </div>
+              </div>
+    
+              <!-- Feature 4 -->
+              <div class="col-md-6 d-flex">
+                <div class="feature-box d-flex flex-column align-items-start justify-content-between p-4 h-100" data-aos-delay="500">
+                  <i class="bi bi-check-circle"></i>
+                  <h3>Audience Segmentation</h3>
+                  <p>Send personalized newsletters to specific audience segments for better engagement.</p>
+                </div>
+              </div>
+    
+              <!-- Feature 5 -->
+              <div class="col-md-6 d-flex">
+                <div class="feature-box d-flex flex-column align-items-start justify-content-between p-4 h-100" data-aos-delay="600">
+                  <i class="bi bi-check-circle"></i>
+                  <h3>Cross-Platform Optimization</h3>
+                  <p>Ensure your newsletters look great on all devices and platforms.</p>
+                </div>
+              </div>
+    
+              <!-- Feature 6 -->
+              <div class="col-md-6 d-flex">
+                <div class="feature-box d-flex flex-column align-items-start justify-content-between p-4 h-100" data-aos-delay="700">
+                  <i class="bi bi-check-circle"></i>
+                  <h3>Automation and Scheduling</h3>
+                  <p>Automate newsletter creation and schedule delivery for optimal timing.</p>
+                </div>
+              </div>
+    
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </section>
+    
+    <section id="alt-features" class="alt-features section">
+      <div class="container">
+        <div class="row gy-5">
+    
+          <!-- Colonne des icônes et des fonctionnalités -->
+          <div class="col-xl-7 d-flex order-2 order-xl-1" data-aos-delay="200">
+            <div class="row align-self-center gy-5">
+    
+              <!-- Feature: AI-Powered Newsletters -->
+              <div class="col-md-6 icon-box">
+                <i class="bi bi-award"></i>
+                <div>
+                  <h4>AI-Powered Newsletters</h4>
+                  <p>Our platform leverages cutting-edge AI technology to generate high-quality, personalized newsletters, saving you time and increasing engagement with your audience.</p>
+                </div>
+              </div>
+    
+              <!-- Feature: Personalization and Customization -->
+              <div class="col-md-6 icon-box">
+                <i class="bi bi-card-checklist"></i>
+                <div>
+                  <h4>Personalization & Customization</h4>
+                  <p>Create newsletters that are perfectly tailored to your target audience. Our system uses advanced data analytics to ensure that each newsletter resonates with your readers.</p>
+                </div>
+              </div>
+    
+              <!-- Feature: Automation and Scheduling -->
+              <div class="col-md-6 icon-box">
+                <i class="bi bi-dribbble"></i>
+                <div>
+                  <h4>Automation & Scheduling</h4>
+                  <p>Automate your newsletter campaigns with our built-in scheduling tools, allowing you to send newsletters at the perfect time for maximum impact.</p>
+                </div>
+              </div>
+    
+              <!-- Feature: Data-Driven Insights -->
+              <div class="col-md-6 icon-box">
+                <i class="bi bi-filter-circle"></i>
+                <div>
+                  <h4>Data-Driven Insights</h4>
+                  <p>Our platform provides detailed insights and analytics on newsletter performance, helping you understand what works and how to improve future campaigns.</p>
+                </div>
+              </div>
+    
+              <!-- Feature: Multi-Sector Impact -->
+              <div class="col-md-6 icon-box">
+                <i class="bi bi-lightning-charge"></i>
+                <div>
+                  <h4>Multi-Sector Impact</h4>
+                  <p>Our newsletters cover various industries including real estate, technology, finance, and more, giving your audience a broad perspective on key trends and developments.</p>
+                </div>
+              </div>
+    
+              <!-- Feature: Secure and Reliable -->
+              <div class="col-md-6 icon-box">
+                <i class="bi bi-patch-check"></i>
+                <div>
+                  <h4>Secure & Reliable</h4>
+                  <p>We ensure that your data is secure with top-notch encryption and reliability, so you can trust us to handle your newsletters and sensitive information.</p>
+                </div>
+              </div>
+    
+            </div>
+          </div>
+    
+          <!-- Image illustrant les fonctionnalités -->
+          <div class="col-xl-5 d-flex align-items-center order-1 order-xl-2" data-aos-delay="100">
+            <img src="{% static 'assets/img/alt-features.png' %}" class="img-fluid" alt="AI-driven newsletter platform">
+          </div>
+    
+        </div>
+      </div>
+    </section>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <section id="testimonials" class="testimonials section">
+
+      <!-- Section Title -->
+      <div class="container section-title"  >
+        <h2>Testimonials</h2>
+        <p>What they are saying about us<br></p>
+      </div><!-- End Section Title -->
+
+      <div class="container"   data-aos-delay="100">
+
+        <div class="swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "auto",
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              },
+              "breakpoints": {
+                "320": {
+                  "slidesPerView": 1,
+                  "spaceBetween": 40
+                },
+                "1200": {
+                  "slidesPerView": 3,
+                  "spaceBetween": 1
+                }
+              }
+            }
+          </script>
+          <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  "With this AI-powered newsletter platform, I can now create newsletters in minutes! The interface is intuitive and allows me to focus on growing my business. I highly recommend this tool to anyone looking to automate their marketing."
+                </p>
+                <div class="profile mt-auto">
+                  <img src="{% static 'assets/img/testimonials/testimonials-1.jpg' %}" class="testimonial-img" alt="Testimonial 1">
+                  <h3>Saul Goodman</h3>
+                  <h4>CEO &amp; Founder</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+            
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  "As a designer, I always look for ways to improve my communication process. This AI newsletter platform has allowed me to generate high-quality content at incredible speed. I never thought technology could make my life this easy."
+                </p>
+                <div class="profile mt-auto">
+                  <img src="{% static 'assets/img/testimonials/testimonials-2.jpg' %}" class="testimonial-img" alt="Testimonial 2">
+                  <h3>Sara Wilsson</h3>
+                  <h4>Designer</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+            
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  "This AI-based newsletter platform has cut the time I spend on my campaigns in half. Plus, the AI automatically optimizes the content to maximize engagement. A must-have tool for every modern entrepreneur!"
+                </p>
+                <div class="profile mt-auto">
+                  <img src="{% static 'assets/img/testimonials/testimonials-3.jpg' %}" class="testimonial-img" alt="Testimonial 3">
+                  <h3>Jena Karlis</h3>
+                  <h4>Store Owner</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+            
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  "This AI platform is a real game-changer for my marketing campaigns. It allows me to create personalized newsletters at scale effortlessly. I've noticed a significant increase in engagement and conversions."
+                </p>
+                <div class="profile mt-auto">
+                  <img src="{% static 'assets/img/testimonials/testimonials-4.jpg' %}" class="testimonial-img" alt="Testimonial 4">
+                  <h3>Matt Brandon</h3>
+                  <h4>Freelancer</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+            
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <div class="stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                  "I’m really impressed with the efficiency of this AI-powered newsletter platform. It allows me to keep my clients informed with relevant, well-written content automatically generated by AI. A true asset for any modern business."
+                </p>
+                <div class="profile mt-auto">
+                  <img src="{% static 'assets/img/testimonials/testimonials-5.jpg' %}" class="testimonial-img" alt="Testimonial 5">
+                  <h3>John Larson</h3>
+                  <h4>Entrepreneur</h4>
+                </div>
+              </div>
+            </div><!-- End testimonial item -->
+            
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+
+    </section><!-- /Testimonials Section -->
+       <script>
+        var swiper = new Swiper('.swiper', {
+          loop: true,
+          speed: 600,
+          autoplay: {
+            delay: 5000,
+          },
+          slidesPerView: 'auto',
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          breakpoints: {
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 40
+            },
+            1200: {
+              slidesPerView: 3,
+              spaceBetween: 30
+            }
+          }
+        });
+      </script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+ 
+  </main> 
+{% endblock %}
